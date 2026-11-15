@@ -12,7 +12,7 @@ import requests
 API_KEY = os.getenv("CMC_API_KEY")
 BASE_URL = "https://pro-api.coinmarketcap.com"
 COIN_LIMIT = 1000
-BATCH_SIZE = 50
+BATCH_SIZE = 25
 HISTORY_DAYS = 365
 OUTPUT_DIR = Path("data/daily")
 SUMMARY_PATH = Path("data/coverage.json")
@@ -168,7 +168,7 @@ def main():
         total_points += batch_points
         print(f"  Bu paketten gelen veri noktasi: {batch_points}; kredi: {credits}")
 
-        # 50 IDs per request is deliberately conservative; pause between calls.
+       # 25 IDs keeps each request below the 10000 datapoint limit.
         if batch_no < batch_count:
             time.sleep(1.3)
 
