@@ -6,7 +6,7 @@ import requests
 API_KEY = os.getenv("CMC_API_KEY")
 
 if not API_KEY:
-    print("API KEY BULUNAMADI!")
+    print("API KEY BULUNAMADI")
     sys.exit(1)
 
 url = "https://pro-api.coinmarketcap.com/v3/cryptocurrency/quotes/historical"
@@ -17,20 +17,20 @@ headers = {
 }
 
 params = {
-    "id": "1",
+    "id": "1,1027",
     "count": 7,
     "interval": "daily",
     "convert": "USD"
 }
 
-print("BITCOIN GECMIS HACIM TESTI BASLADI")
+print("COKLU COIN GECMIS VERI TESTI")
 
 try:
     response = requests.get(
         url,
         headers=headers,
         params=params,
-        timeout=30
+        timeout=60
     )
 
     print("HTTP:", response.status_code)
@@ -39,31 +39,41 @@ try:
     status = result.get("status") or {}
 
     if response.status_code != 200 or str(status.get("error_code", 0)) != "0":
-        print("API HATA:", status.get("error_code"))
-        print("ACIKLAMA:", status.get("error_message"))
+        print("API HATASI:", status.get("error_message"))
         sys.exit(1)
 
-    btc = result.get("data", {}).get("1", {})
-    quotes = btc.get("quotes", [])
+    print("Kullanilan kredi:", status.get("credit_count"))
 
-    if not quotes:
-        print("GECMIS VERI BULUNAMADI!")
-        sys.exit(1)
+    assets = result.get("data", {})
 
-    print("\nBITCOIN GUNLUK HACIMLARI:")
+    for coin_id, name in [("1", "BITCOIN"), ("1027", "ETHEREUM")]:
 
-    for item in quotes:
-        usd = item["quote"]["USD"]
+        asset = assets.get(coin_id)
 
-        print(
-            item["timestamp"],
-            "| Hacim:",
-            round(usd["volume_24h"], 2),
-            "USD"
-        )
+        if not asset:
+            print(name, "VERISI BULUNAMADI")
+            sys.exit(1)
+
+        quotes = asset.get("quotes", [])
+
+        if not quotes:
+            print(name, "GECMIS VERISI BOS")
+            sys.exit(1)
+
+        print("\n", name)
+
+        for item in quotes:
+            usd = item["quote"]["USD"]
+
+            print(
+                item["timestamp"][:10],
+                "24s Hacim:",
+                round(usd["volume_24h"], 2),
+                "USD"
+            )
 
     print("\nBASARILI!")
-    print("GECMIS HACIM VERISI ALINDI.")
+    print("IKI COIN TEK ISTEKTE OKUNDU.")
 
 except Exception as error:
     print("HATA:", repr(error))
