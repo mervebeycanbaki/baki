@@ -6,10 +6,10 @@ import requests
 API_KEY = os.getenv("CMC_API_KEY")
 
 if not API_KEY:
-    print("HATA: CMC_API_KEY bulunamadi!")
+    print("API KEY BULUNAMADI!")
     sys.exit(1)
 
-url = "https://pro-api.coinmarketcap.com/v3/cryptocurrency/listings/latest"
+url = "https://pro-api.coinmarketcap.com/v3/cryptocurrency/quotes/historical"
 
 headers = {
     "Accept": "application/json",
@@ -17,11 +17,13 @@ headers = {
 }
 
 params = {
-    "limit": 5,
+    "id": "1",
+    "count": 7,
+    "interval": "daily",
     "convert": "USD"
 }
 
-print("CoinMarketCap baglantisi test ediliyor...")
+print("BITCOIN GECMIS HACIM TESTI BASLADI")
 
 try:
     response = requests.get(
@@ -31,39 +33,38 @@ try:
         timeout=30
     )
 
-    print("HTTP Durum:", response.status_code)
+    print("HTTP:", response.status_code)
 
-    data = response.json()
-    status = data.get("status") or {}
+    result = response.json()
+    status = result.get("status") or {}
 
     if response.status_code != 200 or str(status.get("error_code", 0)) != "0":
-        print("API HATA KODU:", status.get("error_code"))
-        print("API HATA MESAJI:", status.get("error_message"))
+        print("API HATA:", status.get("error_code"))
+        print("ACIKLAMA:", status.get("error_message"))
         sys.exit(1)
 
-    coins = data.get("data", [])
+    btc = result.get("data", {}).get("1", {})
+    quotes = btc.get("quotes", [])
 
-    if not coins:
-        print("Coin listesi bos!")
+    if not quotes:
+        print("GECMIS VERI BULUNAMADI!")
         sys.exit(1)
 
-    print("\nCOIN LISTESI BASARILI:")
+    print("\nBITCOIN GUNLUK HACIMLARI:")
 
-    for coin in coins:
-        usd = coin["quote"][0]
+    for item in quotes:
+        usd = item["quote"]["USD"]
 
         print(
-            coin["symbol"],
-            "| Fiyat:", round(usd["price"], 6),
-            "| 24s Hacim:", round(usd["volume_24h"], 2)
+            item["timestamp"],
+            "| Hacim:",
+            round(usd["volume_24h"], 2),
+            "USD"
         )
 
-    print("\nBASARILI! CMC API BAGLANTISI CALISIYOR.")
-
-except requests.RequestException as error:
-    print("BAGLANTI HATASI:", error)
-    sys.exit(1)
+    print("\nBASARILI!")
+    print("GECMIS HACIM VERISI ALINDI.")
 
 except Exception as error:
-    print("BEKLENMEYEN HATA:", repr(error))
+    print("HATA:", repr(error))
     sys.exit(1)
