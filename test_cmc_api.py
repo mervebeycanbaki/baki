@@ -5,32 +5,32 @@ import requests
 
 API_KEY = os.getenv("CMC_API_KEY")
 
-if not API_KEY:
-    print("API KEY BULUNAMADI")
-    sys.exit(1)
+URL = "https://pro-api.coinmarketcap.com/v3/cryptocurrency/quotes/historical"
 
-url = "https://pro-api.coinmarketcap.com/v3/cryptocurrency/quotes/historical"
-
-headers = {
+HEADERS = {
     "Accept": "application/json",
-    "X-CMC_PRO_API_KEY": API_KEY
+    "X-CMC_PRO_API_KEY": API_KEY or ""
 }
 
-params = {
+PARAMS = {
     "id": "1,1027",
-    "count": 7,
+    "count": 365,
     "interval": "daily",
     "convert": "USD"
 }
 
-print("COKLU COIN GECMIS VERI TESTI")
+print("365 GUNLUK GECMIS VERI TESTI")
+
+if not API_KEY:
+    print("API KEY BULUNAMADI")
+    sys.exit(1)
 
 try:
     response = requests.get(
-        url,
-        headers=headers,
-        params=params,
-        timeout=60
+        URL,
+        headers=HEADERS,
+        params=PARAMS,
+        timeout=120
     )
 
     print("HTTP:", response.status_code)
@@ -39,41 +39,43 @@ try:
     status = result.get("status") or {}
 
     if response.status_code != 200 or str(status.get("error_code", 0)) != "0":
-        print("API HATASI:", status.get("error_message"))
+        print("API HATASI:", status.get("error_code"))
+        print("ACIKLAMA:", status.get("error_message"))
         sys.exit(1)
 
-    print("Kullanilan kredi:", status.get("credit_count"))
+    print("KREDI:", status.get("credit_count"))
 
     assets = result.get("data", {})
 
     for coin_id, name in [("1", "BITCOIN"), ("1027", "ETHEREUM")]:
 
-        asset = assets.get(coin_id)
+        coin = assets.get(coin_id)
 
-        if not asset:
-            print(name, "VERISI BULUNAMADI")
+        if not coin:
+            print(name, "BULUNAMADI")
             sys.exit(1)
 
-        quotes = asset.get("quotes", [])
-
-        if not quotes:
-            print(name, "GECMIS VERISI BOS")
-            sys.exit(1)
+        quotes = coin.get("quotes", [])
 
         print("\n", name)
+        print("Gelen gunluk kayit:", len(quotes))
 
-        for item in quotes:
-            usd = item["quote"]["USD"]
+        if len(quotes) < 350:
+            print("UYARI: 365 gunluk veri tam gelmedi.")
+            sys.exit(1)
 
-            print(
-                item["timestamp"][:10],
-                "24s Hacim:",
-                round(usd["volume_24h"], 2),
-                "USD"
-            )
+        volumes = [
+            item["quote"]["USD"]["volume_24h"]
+            for item in quotes
+        ]
+
+        average = sum(volumes) / len(volumes)
+
+        print("Ortalama 24s hacim:", round(average, 2))
+        print("En son kayit:", quotes[-1]["timestamp"])
 
     print("\nBASARILI!")
-    print("IKI COIN TEK ISTEKTE OKUNDU.")
+    print("IKI COIN ICIN 1 YILLIK VERI ALINDI.")
 
 except Exception as error:
     print("HATA:", repr(error))
