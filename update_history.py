@@ -171,15 +171,19 @@ def load_existing_day(day: date):
 
 def fetch_day_for_coin_batch(day: date, batch: list):
     ids = [str(asset["id"]) for asset in batch]
-    start_utc = datetime.combine(day, dt_time.min, tzinfo=timezone.utc)
-    end_utc = start_utc + timedelta(days=1) - timedelta(milliseconds=1)
+
+    end_utc = (
+        datetime.combine(day, dt_time.min, tzinfo=timezone.utc)
+        + timedelta(days=1)
+        - timedelta(milliseconds=1)
+    )
 
     payload, credits = cmc_get(
         "/v3/cryptocurrency/quotes/historical",
         {
             "id": ",".join(ids),
-            "time_start": start_utc.isoformat(timespec="milliseconds").replace("+00:00", "Z"),
             "time_end": end_utc.isoformat(timespec="milliseconds").replace("+00:00", "Z"),
+            "count": 1,
             "interval": "daily",
             "convert": "USD",
         },
@@ -188,6 +192,7 @@ def fetch_day_for_coin_batch(day: date, batch: list):
 
     assets_data = payload.get("data") or {}
     output_rows = {}
+
     for id_text, asset_data in assets_data.items():
         try:
             coin_id = int(id_text)
@@ -195,6 +200,7 @@ def fetch_day_for_coin_batch(day: date, batch: list):
             continue
 
         snapshots = asset_data.get("quotes") or []
+
         matching = []
         for snapshot in snapshots:
             timestamp = snapshot.get("timestamp") or ""
@@ -204,10 +210,10 @@ def fetch_day_for_coin_batch(day: date, batch: list):
         if not matching:
             continue
 
-        # The daily interval is the first quote available at the start of the UTC day.
-        snapshot = sorted(matching, key=lambda item: item.get("timestamp", ""))[0]
+        snapshot = matching[0]
         usd = ((snapshot.get("quote") or {}).get("USD") or {})
         volume = usd.get("volume_24h")
+
         if volume is None:
             continue
 
