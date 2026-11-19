@@ -1,0 +1,76 @@
+name: Binance Public API Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v7
+
+      - name: Python kur
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Binance 4 saat, gunluk ve haftalik veri testi
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone
+          import requests
+
+          url = "https://data-api.binance.vision/api/v3/klines"
+          intervals = ("4h", "1d", "1w")
+          now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+
+          for interval in intervals:
+              params = {
+                  "symbol": "BTCUSDT",
+                  "interval": interval,
+                  "limit": 5,
+              }
+
+              response = requests.get(url, params=params, timeout=30)
+              try:
+                  payload = response.json()
+              except ValueError as exc:
+                  raise RuntimeError(
+                      f"{interval}: Binance JSON olmayan yanit verdi: {response.text[:300]}"
+                  ) from exc
+
+              if not response.ok:
+                  raise RuntimeError(
+                      f"{interval}: HTTP {response.status_code}: {payload}"
+                  )
+
+              if isinstance(payload, dict) and "code" in payload:
+                  raise RuntimeError(f"{interval}: Binance API hatasi: {payload}")
+
+              if not isinstance(payload, list) or not payload:
+                  raise RuntimeError(
+                      f"{interval}: Beklenen mum listesi gelmedi: {payload}"
+                  )
+
+              # Son kapanmis mumu kullan; halen acik olan mumu raporlama.
+              closed = [row for row in payload if int(row[6]) < now_ms]
+              if not closed:
+                  raise RuntimeError(f"{interval}: Kapanmis mum bulunamadi.")
+
+              last = closed[-1]
+              open_time = datetime.fromtimestamp(
+                  int(last[0]) / 1000, tz=timezone.utc
+              ).strftime("%Y-%m-%d %H:%M UTC")
+              print(
+                  f"OK | {interval} | mum sayisi={len(payload)} | "
+                  f"son kapanmis mum={open_time} | kapanis={last[4]}"
+              )
+
+          print("BASARILI: Binance 4h, 1d ve 1w mum verileri API anahtari olmadan alindi.")
+          PY
