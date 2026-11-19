@@ -1,4 +1,4 @@
-name: Binance Public API Test
+name: Binance Coin Mapping Test
 
 on:
   workflow_dispatch:
@@ -7,9 +7,9 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  mapping:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
 
     steps:
       - name: Depoyu indir
@@ -20,75 +20,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Binance 4 saat, gunluk ve haftalik veri testi
-        run: |
-          python - <<'PY'
-          from datetime import datetime, timezone
-          from urllib.error import HTTPError, URLError
-          from urllib.parse import urlencode
-          from urllib.request import Request, urlopen
-          import json
+      - name: CMC coinlerini Binance USDT pariteleriyle eslestir
+        run: python test_binance_symbol_mapping.py
 
-          base_url = "https://data-api.binance.vision/api/v3/klines"
-          intervals = ("4h", "1d", "1w")
-          now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
-
-          for interval in intervals:
-              params = urlencode({
-                  "symbol": "BTCUSDT",
-                  "interval": interval,
-                  "limit": 5,
-              })
-              request = Request(
-                  f"{base_url}?{params}",
-                  headers={"User-Agent": "CoinSinyal-RSI-Test/1.0"},
-              )
-
-              try:
-                  with urlopen(request, timeout=30) as response:
-                      payload = json.loads(response.read().decode("utf-8"))
-              except HTTPError as exc:
-                  details = exc.read().decode("utf-8", errors="replace")[:500]
-                  raise RuntimeError(
-                      f"{interval}: Binance HTTP {exc.code}: {details}"
-                  ) from exc
-              except URLError as exc:
-                  raise RuntimeError(
-                      f"{interval}: Binance baglanti hatasi: {exc.reason}"
-                  ) from exc
-              except json.JSONDecodeError as exc:
-                  raise RuntimeError(
-                      f"{interval}: Binance gecerli JSON dondurmedi."
-                  ) from exc
-
-              if isinstance(payload, dict) and "code" in payload:
-                  raise RuntimeError(
-                      f"{interval}: Binance API hatasi: {payload}"
-                  )
-
-              if not isinstance(payload, list) or not payload:
-                  raise RuntimeError(
-                      f"{interval}: Beklenen mum listesi gelmedi: {payload}"
-                  )
-
-              # Yalnizca kapanmis mumlari kontrol et.
-              closed = [row for row in payload if int(row[6]) < now_ms]
-              if not closed:
-                  raise RuntimeError(
-                      f"{interval}: Kapanmis mum bulunamadi."
-                  )
-
-              last = closed[-1]
-              open_time = datetime.fromtimestamp(
-                  int(last[0]) / 1000, tz=timezone.utc
-              ).strftime("%Y-%m-%d %H:%M UTC")
-              print(
-                  f"OK | {interval} | mum sayisi={len(payload)} | "
-                  f"son kapanmis mum={open_time} | kapanis={last[4]}"
-              )
-
-          print(
-              "BASARILI: Binance 4h, 1d ve 1w mum verileri "
-              "API anahtari olmadan alindi."
-          )
-          PY
+      - name: Eslesme CSV dosyasini indirilebilir olarak sakla
+        uses: actions/upload-artifact@v4
+        with:
+          name: binance-symbol-mapping
+          path: reports/binance_symbol_mapping.csv
+          if-no-files-found: error
+          retention-days: 7
