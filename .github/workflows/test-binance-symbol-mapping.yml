@@ -1,0 +1,96 @@
+name: Binance Coin Mapping Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mapping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v7
+
+      - name: Python kur
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: CMC coinlerini Binance USDT pariteleriyle eslestir
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          import os
+          import urllib.request
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          DATA_DIR = Path("data/daily")
+          REPORT_DIR = Path("reports")
+          API_URL = "https://data-api.binance.vision/api/v3/exchangeInfo"
+
+          def get_json(url):
+              request = urllib.request.Request(
+                  url,
+                  headers={"User-Agent": "CoinSinyal-RSI-Mapping/1.0"}
+              )
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  return json.loads(response.read().decode("utf-8"))
+
+          csv_files = sorted(DATA_DIR.glob("????-??-??.csv"))
+          if not csv_files:
+              raise SystemExit("HATA: data/daily klasorunde tarihli CSV bulunamadi.")
+
+          latest_file = csv_files[-1]
+          with latest_file.open("r", newline="", encoding="utf-8-sig") as handle:
+              reader = csv.DictReader(handle)
+              required = {"cmc_id", "name", "symbol"}
+              if not reader.fieldnames or not required.issubset(set(reader.fieldnames)):
+                  raise SystemExit(
+                      "HATA: Son CMC CSV dosyasinda cmc_id, name veya symbol sutunu eksik."
+                  )
+              coins = []
+              for row in reader:
+                  cmc_id = (row.get("cmc_id") or "").strip()
+                  name = (row.get("name") or "").strip()
+                  symbol = (row.get("symbol") or "").strip().upper()
+                  if cmc_id and symbol:
+                      coins.append({
+                          "cmc_id": cmc_id,
+                          "name": name,
+                          "cmc_symbol": symbol
+                      })
+
+          if not coins:
+              raise SystemExit("HATA: Son CMC CSV dosyasinda coin bulunamadi.")
+
+          print(f"CMC snapshot: {latest_file.name}")
+          print(f"CMC coin kaydi: {len(coins)}")
+          print("Binance spot sembolleri aliniyor...")
+
+          exchange = get_json(API_URL)
+          binance_by_base = defaultdict(list)
+
+          for item in exchange.get("symbols", []):
+              if (
+                  item.get("status") == "TRADING"
+                  and item.get("quoteAsset") == "USDT"
+                  and item.get("isSpotTradingAllowed", False) is True
+              ):
+                  base = (item.get("baseAsset") or "").upper()
+                  pair = (item.get("symbol") or "").upper()
+                  if base and pair:
+                      binance_by_base[base].append(pair)
+
+          cmc_symbol_counts = Counter(coin["cmc_symbol"] for coin in coins)
+          rows = []
+          counts = Counter()
+
+          for coin in coins:
+              symbol = coin["cmc_symbol"]
+              if cmc_symbol_counts[symbol] > 1:
