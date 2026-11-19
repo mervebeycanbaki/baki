@@ -24,44 +24,59 @@ jobs:
         run: |
           python - <<'PY'
           from datetime import datetime, timezone
-          import requests
+          from urllib.error import HTTPError, URLError
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+          import json
 
-          url = "https://data-api.binance.vision/api/v3/klines"
+          base_url = "https://data-api.binance.vision/api/v3/klines"
           intervals = ("4h", "1d", "1w")
           now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
 
           for interval in intervals:
-              params = {
+              params = urlencode({
                   "symbol": "BTCUSDT",
                   "interval": interval,
                   "limit": 5,
-              }
+              })
+              request = Request(
+                  f"{base_url}?{params}",
+                  headers={"User-Agent": "CoinSinyal-RSI-Test/1.0"},
+              )
 
-              response = requests.get(url, params=params, timeout=30)
               try:
-                  payload = response.json()
-              except ValueError as exc:
+                  with urlopen(request, timeout=30) as response:
+                      payload = json.loads(response.read().decode("utf-8"))
+              except HTTPError as exc:
+                  details = exc.read().decode("utf-8", errors="replace")[:500]
                   raise RuntimeError(
-                      f"{interval}: Binance JSON olmayan yanit verdi: {response.text[:300]}"
+                      f"{interval}: Binance HTTP {exc.code}: {details}"
+                  ) from exc
+              except URLError as exc:
+                  raise RuntimeError(
+                      f"{interval}: Binance baglanti hatasi: {exc.reason}"
+                  ) from exc
+              except json.JSONDecodeError as exc:
+                  raise RuntimeError(
+                      f"{interval}: Binance gecerli JSON dondurmedi."
                   ) from exc
 
-              if not response.ok:
-                  raise RuntimeError(
-                      f"{interval}: HTTP {response.status_code}: {payload}"
-                  )
-
               if isinstance(payload, dict) and "code" in payload:
-                  raise RuntimeError(f"{interval}: Binance API hatasi: {payload}")
+                  raise RuntimeError(
+                      f"{interval}: Binance API hatasi: {payload}"
+                  )
 
               if not isinstance(payload, list) or not payload:
                   raise RuntimeError(
                       f"{interval}: Beklenen mum listesi gelmedi: {payload}"
                   )
 
-              # Son kapanmis mumu kullan; halen acik olan mumu raporlama.
+              # Yalnizca kapanmis mumlari kontrol et.
               closed = [row for row in payload if int(row[6]) < now_ms]
               if not closed:
-                  raise RuntimeError(f"{interval}: Kapanmis mum bulunamadi.")
+                  raise RuntimeError(
+                      f"{interval}: Kapanmis mum bulunamadi."
+                  )
 
               last = closed[-1]
               open_time = datetime.fromtimestamp(
@@ -72,5 +87,8 @@ jobs:
                   f"son kapanmis mum={open_time} | kapanis={last[4]}"
               )
 
-          print("BASARILI: Binance 4h, 1d ve 1w mum verileri API anahtari olmadan alindi.")
+          print(
+              "BASARILI: Binance 4h, 1d ve 1w mum verileri "
+              "API anahtari olmadan alindi."
+          )
           PY
