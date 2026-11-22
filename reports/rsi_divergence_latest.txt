@@ -1,0 +1,174 @@
+COIN SINYAL - RSI UYUMSUZLUK RAPORU
+Tarama zamani: 2026-11-22 05:44 UTC
+CMC kaynak dosyasi: 2026-11-20.csv
+Toplam CMC coin: 1000
+Tekil Binance USDT sembol adayi: 388
+Tamamlanan coin/zaman dilimi istegi: 1164
+Zaman dilimleri: 4 saat (4h), 1 gun (1d), 1 hafta (1w)
+RSI: Wilder 14
+Pivot: 3 sol / 3 sag kapanmis mum
+Yalnizca kapanmis Binance mumlari kullanildi.
+Sinyal, pivotun sagindaki mumlar kapandiktan sonra dogrulanir.
+CMC sembol - Binance base asset eslesmesi aday eslesmedir; proje kimligini garanti etmez.
+RSI uyumsuzlugu tek basina AL/SAT emri veya garanti degildir.
+
+ESLESTIRME OZETI
+AMBIGUOUS_CMC_SYMBOL: 19
+MATCHED_TICKER_CANDIDATE: 388
+NO_ACTIVE_USDT_SPOT_PAIR: 593
+
+Guncel onayli uyumsuzluk: 165
+Bu taramada yeni tespit: 165
+Veri hatasi / atlanan istek: 0
+
+SINYALLER (en fazla 150)
+YENI | ZRX (ZRXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0821 -> 0.0767 (-6.577%) | RSI: 39.53 -> 45.24 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ARPA (ARPAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00851 -> 0.00777 (-8.696%) | RSI: 37.25 -> 39.89 | Son pivot: 2026-11-21 12:00 UTC
+YENI | AVA (AVAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.2075 -> 0.199 (-4.096%) | RSI: 36.92 -> 43.03 | Son pivot: 2026-11-21 12:00 UTC
+YENI | AWE (AWEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0561 -> 0.05522 (-1.569%) | RSI: 35.18 -> 45.69 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ACH (ACHUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00379 -> 0.00363 (-4.222%) | RSI: 40.73 -> 46.92 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ALGO (ALGOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0774 -> 0.0757 (-2.196%) | RSI: 34.92 -> 47.49 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ALT (ALTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00474 -> 0.00435 (-8.228%) | RSI: 36.94 -> 42.21 | Son pivot: 2026-11-21 12:00 UTC
+YENI | API3 (API3USDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1723 -> 0.1694 (-1.683%) | RSI: 19.35 -> 41.58 | Son pivot: 2026-11-21 12:00 UTC
+YENI | APT (APTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.4708 -> 0.3792 (-19.456%) | RSI: 30.32 -> 34.56 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ASTR (ASTRUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00455 -> 0.0043 (-5.495%) | RSI: 36.01 -> 42.94 | Son pivot: 2026-11-21 12:00 UTC
+YENI | AVAX (AVAXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 7.178 -> 6.715 (-6.450%) | RSI: 37.21 -> 41.32 | Son pivot: 2026-11-21 12:00 UTC
+YENI | AXL (AXLUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0337 -> 0.0326 (-3.264%) | RSI: 45.42 -> 47.93 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BOME (BOMEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0005082 -> 0.0004614 (-9.209%) | RSI: 30.26 -> 42.22 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BNT (BNTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.2275 -> 0.2139 (-5.978%) | RSI: 37.76 -> 39.94 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BAND (BANDUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1474 -> 0.1417 (-3.867%) | RSI: 42.10 -> 47.23 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BICO (BICOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01167 -> 0.01026 (-12.082%) | RSI: 32.12 -> 33.93 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BIO (BIOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01667 -> 0.01508 (-9.538%) | RSI: 28.86 -> 38.79 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BTC (BTCUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 65447 -> 60996 (-6.801%) | RSI: 32.56 -> 41.14 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BCH (BCHUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 213.8 -> 200.8 (-6.080%) | RSI: 41.33 -> 45.92 | Son pivot: 2026-11-21 12:00 UTC
+YENI | TAO (TAOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 200.8 -> 189.8 (-5.478%) | RSI: 46.95 -> 50.51 | Son pivot: 2026-11-21 12:00 UTC
+YENI | FIDA (FIDAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01382 -> 0.013 (-5.933%) | RSI: 41.22 -> 44.93 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CTSI (CTSIUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.02227 -> 0.0216 (-3.009%) | RSI: 43.56 -> 48.32 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CELO (CELOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.06113 -> 0.05546 (-9.275%) | RSI: 37.28 -> 40.01 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CETUS (CETUSUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01673 -> 0.01548 (-7.472%) | RSI: 27.55 -> 42.38 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CGPT (CGPTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01565 -> 0.01337 (-14.569%) | RSI: 33.45 -> 36.10 | Son pivot: 2026-11-21 12:00 UTC
+YENI | LINK (LINKUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 9.278 -> 8.714 (-6.079%) | RSI: 40.57 -> 42.40 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CHR (CHRUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01349 -> 0.01283 (-4.893%) | RSI: 41.77 -> 47.16 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CRCLB (CRCLBUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 52.71 -> 49.88 (-5.369%) | RSI: 26.75 -> 34.81 | Son pivot: 2026-11-21 12:00 UTC
+YENI | COW (COWUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0931 -> 0.0897 (-3.652%) | RSI: 40.72 -> 45.84 | Son pivot: 2026-11-21 12:00 UTC
+YENI | COMP (COMPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 17.76 -> 17.32 (-2.477%) | RSI: 36.80 -> 44.89 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CFX (CFXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.03484 -> 0.03103 (-10.936%) | RSI: 31.61 -> 37.41 | Son pivot: 2026-11-21 12:00 UTC
+YENI | PEOPLE (PEOPLEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00519 -> 0.00478 (-7.900%) | RSI: 40.20 -> 42.16 | Son pivot: 2026-11-21 12:00 UTC
+YENI | DIA (DIAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1218 -> 0.1176 (-3.448%) | RSI: 44.07 -> 50.16 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MANA (MANAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0621 -> 0.0562 (-9.501%) | RSI: 32.75 -> 34.97 | Son pivot: 2026-11-21 12:00 UTC
+YENI | DGB (DGBUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00275 -> 0.00265 (-3.636%) | RSI: 40.84 -> 43.09 | Son pivot: 2026-11-21 12:00 UTC
+YENI | DOGE (DOGEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.05998 -> 0.05569 (-7.152%) | RSI: 35.21 -> 42.26 | Son pivot: 2026-11-21 12:00 UTC
+YENI | 2Z (2ZUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01707 -> 0.01624 (-4.862%) | RSI: 43.07 -> 46.30 | Son pivot: 2026-11-21 12:00 UTC
+YENI | DYM (DYMUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01279 -> 0.01149 (-10.164%) | RSI: 38.29 -> 41.92 | Son pivot: 2026-11-21 12:00 UTC
+YENI | EIGEN (EIGENUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1363 -> 0.1182 (-13.280%) | RSI: 26.78 -> 40.21 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ENJ (ENJUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01941 -> 0.01801 (-7.213%) | RSI: 35.13 -> 39.71 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ENA (ENAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1138 -> 0.1 (-12.127%) | RSI: 35.88 -> 37.90 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ETH (ETHUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 1817.57 -> 1716.58 (-5.556%) | RSI: 41.19 -> 42.87 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ETC (ETCUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 6.05 -> 5.55 (-8.264%) | RSI: 34.05 -> 39.56 | Son pivot: 2026-11-21 12:00 UTC
+YENI | FLUX (FLUXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0479 -> 0.047 (-1.879%) | RSI: 37.82 -> 44.74 | Son pivot: 2026-11-21 12:00 UTC
+YENI | GMX (GMXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 7.41 -> 7.34 (-0.945%) | RSI: 48.29 -> 51.72 | Son pivot: 2026-11-21 12:00 UTC
+YENI | G (GUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0027 -> 0.00259 (-4.074%) | RSI: 40.95 -> 46.44 | Son pivot: 2026-11-21 12:00 UTC
+YENI | HBAR (HBARUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.05672 -> 0.05228 (-7.828%) | RSI: 35.23 -> 38.61 | Son pivot: 2026-11-21 12:00 UTC
+YENI | HOLO (HOLOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0457 -> 0.043 (-5.908%) | RSI: 33.05 -> 40.91 | Son pivot: 2026-11-21 12:00 UTC
+YENI | IOST (IOSTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.000576 -> 0.000559 (-2.951%) | RSI: 31.52 -> 49.19 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ILV (ILVUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 2.44 -> 2.25 (-7.787%) | RSI: 41.78 -> 44.67 | Son pivot: 2026-11-21 12:00 UTC
+YENI | IOTX (IOTXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.002418 -> 0.002375 (-1.778%) | RSI: 32.91 -> 46.89 | Son pivot: 2026-11-21 12:00 UTC
+YENI | JOE (JOEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0222 -> 0.0201 (-9.459%) | RSI: 32.39 -> 34.62 | Son pivot: 2026-11-21 12:00 UTC
+YENI | JASMY (JASMYUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00332 -> 0.00312 (-6.024%) | RSI: 36.38 -> 44.55 | Son pivot: 2026-11-21 12:00 UTC
+YENI | JTO (JTOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.2744 -> 0.228 (-16.910%) | RSI: 30.55 -> 32.76 | Son pivot: 2026-11-21 12:00 UTC
+YENI | KAIA (KAIAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0299 -> 0.0284 (-5.017%) | RSI: 37.76 -> 44.12 | Son pivot: 2026-11-21 12:00 UTC
+YENI | KAVA (KAVAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.03517 -> 0.02727 (-22.462%) | RSI: 17.67 -> 30.82 | Son pivot: 2026-11-21 12:00 UTC
+YENI | LQTY (LQTYUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1415 -> 0.1382 (-2.332%) | RSI: 36.18 -> 38.79 | Son pivot: 2026-11-21 08:00 UTC
+YENI | MANTRA (MANTRAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00235 -> 0.00187 (-20.426%) | RSI: 28.18 -> 30.85 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MARSCOIN (MARSCOINUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0344 -> 0.0302 (-12.209%) | RSI: 38.88 -> 43.49 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MIRA (MIRAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.03129 -> 0.03085 (-1.406%) | RSI: 34.98 -> 46.38 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MOVR (MOVRUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.907 -> 0.823 (-9.261%) | RSI: 36.40 -> 42.36 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MORPHO (MORPHOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 1.78 -> 1.61 (-9.551%) | RSI: 32.01 -> 40.07 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MOVE (MOVEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.004907 -> 0.004631 (-5.625%) | RSI: 35.16 -> 44.34 | Son pivot: 2026-11-21 12:00 UTC
+YENI | EGLD (EGLDUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 2.654 -> 2.333 (-12.095%) | RSI: 35.21 -> 38.94 | Son pivot: 2026-11-21 12:00 UTC
+YENI | NXPC (NXPCUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1359 -> 0.1352 (-0.515%) | RSI: 50.03 -> 52.86 | Son pivot: 2026-11-21 12:00 UTC
+YENI | XNO (XNOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.333 -> 0.313 (-6.006%) | RSI: 42.46 -> 52.50 | Son pivot: 2026-11-21 12:00 UTC
+YENI | NEO (NEOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 1.624 -> 1.524 (-6.158%) | RSI: 40.25 -> 43.06 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CKB (CKBUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.000856 -> 0.000809 (-5.491%) | RSI: 36.94 -> 39.70 | Son pivot: 2026-11-21 12:00 UTC
+YENI | NEXO (NEXOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.651 -> 0.65 (-0.154%) | RSI: 35.22 -> 50.77 | Son pivot: 2026-11-21 12:00 UTC
+YENI | NMR (NMRUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 8.1 -> 7.7 (-4.938%) | RSI: 43.09 -> 47.27 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ORDI (ORDIUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 2.85 -> 2.523 (-11.474%) | RSI: 36.09 -> 38.28 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ROSE (ROSEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00473 -> 0.0044 (-6.977%) | RSI: 36.90 -> 41.00 | Son pivot: 2026-11-21 12:00 UTC
+YENI | OP (OPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0812 -> 0.0713 (-12.192%) | RSI: 25.65 -> 39.19 | Son pivot: 2026-11-21 12:00 UTC
+YENI | OGN (OGNUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.02031 -> 0.01924 (-5.268%) | RSI: 40.27 -> 44.76 | Son pivot: 2026-11-21 12:00 UTC
+YENI | OSMO (OSMOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0339 -> 0.0336 (-0.885%) | RSI: 50.93 -> 61.87 | Son pivot: 2026-11-21 12:00 UTC
+YENI | PEPE (PEPEUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 4.08e-06 -> 3.51e-06 (-13.971%) | RSI: 31.79 -> 37.43 | Son pivot: 2026-11-21 12:00 UTC
+YENI | POL (POLUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.08186 -> 0.07734 (-5.522%) | RSI: 40.26 -> 42.79 | Son pivot: 2026-11-21 12:00 UTC
+YENI | POWR (POWRUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0441 -> 0.0395 (-10.431%) | RSI: 33.11 -> 39.38 | Son pivot: 2026-11-21 12:00 UTC
+YENI | PENGU (PENGUUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0049 -> 0.004416 (-9.878%) | RSI: 37.49 -> 39.87 | Son pivot: 2026-11-21 12:00 UTC
+YENI | PUMP (PUMPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.002854 -> 0.002477 (-13.210%) | RSI: 28.64 -> 36.91 | Son pivot: 2026-11-21 12:00 UTC
+YENI | RPL (RPLUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 1.219 -> 1.156 (-5.168%) | RSI: 41.29 -> 45.61 | Son pivot: 2026-11-21 12:00 UTC
+YENI | RIF (RIFUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0513 -> 0.0481 (-6.238%) | RSI: 31.73 -> 38.71 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SFP (SFPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1776 -> 0.1653 (-6.926%) | RSI: 32.10 -> 42.49 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CTK (CTKUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0778 -> 0.0725 (-6.812%) | RSI: 41.49 -> 43.19 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SHIB (SHIBUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 3.98e-06 -> 3.66e-06 (-8.040%) | RSI: 35.22 -> 41.51 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SLP (SLPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.000494 -> 0.000412 (-16.599%) | RSI: 38.91 -> 44.27 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SOL (SOLUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 72.92 -> 71.12 (-2.468%) | RSI: 32.44 -> 45.47 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SXT (SXTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00813 -> 0.00772 (-5.043%) | RSI: 42.01 -> 45.00 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SPELL (SPELLUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 6.37e-05 -> 6.16e-05 (-3.297%) | RSI: 28.82 -> 40.07 | Son pivot: 2026-11-21 12:00 UTC
+YENI | STRK (STRKUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.03234 -> 0.03109 (-3.865%) | RSI: 38.67 -> 44.73 | Son pivot: 2026-11-21 12:00 UTC
+YENI | MSTRB (MSTRBUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 87.93 -> 82.04 (-6.699%) | RSI: 21.24 -> 32.44 | Son pivot: 2026-11-21 12:00 UTC
+YENI | RARE (RAREUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01732 -> 0.01654 (-4.503%) | RSI: 62.07 -> 64.27 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SUPER (SUPERUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.1347 -> 0.1168 (-13.289%) | RSI: 27.75 -> 38.07 | Son pivot: 2026-11-21 12:00 UTC
+YENI | TRX (TRXUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.3074 -> 0.307 (-0.130%) | RSI: 40.97 -> 44.90 | Son pivot: 2026-11-21 12:00 UTC
+YENI | TST (TSTUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.01054 -> 0.00998 (-5.313%) | RSI: 43.54 -> 45.69 | Son pivot: 2026-11-21 12:00 UTC
+YENI | XTZ (XTZUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.2122 -> 0.2029 (-4.383%) | RSI: 39.61 -> 44.78 | Son pivot: 2026-11-21 12:00 UTC
+YENI | T (TUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00399 -> 0.00367 (-8.020%) | RSI: 33.06 -> 43.03 | Son pivot: 2026-11-21 12:00 UTC
+YENI | UMA (UMAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.268 -> 0.244 (-8.955%) | RSI: 31.45 -> 39.57 | Son pivot: 2026-11-21 12:00 UTC
+YENI | CHIP (CHIPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.02833 -> 0.02687 (-5.154%) | RSI: 37.93 -> 41.88 | Son pivot: 2026-11-21 12:00 UTC
+YENI | UNI (UNIUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 5.257 -> 4.789 (-8.902%) | RSI: 33.10 -> 44.01 | Son pivot: 2026-11-21 12:00 UTC
+YENI | VANA (VANAUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.65 -> 0.614 (-5.538%) | RSI: 37.30 -> 46.16 | Son pivot: 2026-11-21 12:00 UTC
+YENI | A (AUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.0689 -> 0.0664 (-3.628%) | RSI: 43.36 -> 48.86 | Son pivot: 2026-11-21 12:00 UTC
+YENI | VTHO (VTHOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.000456 -> 0.000431 (-5.482%) | RSI: 42.78 -> 48.84 | Son pivot: 2026-11-21 12:00 UTC
+YENI | XVS (XVSUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 2.366 -> 2.197 (-7.143%) | RSI: 29.22 -> 38.74 | Son pivot: 2026-11-21 12:00 UTC
+YENI | WAXP (WAXPUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00352 -> 0.00333 (-5.398%) | RSI: 41.90 -> 43.65 | Son pivot: 2026-11-21 12:00 UTC
+YENI | WOO (WOOUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00929 -> 0.00878 (-5.490%) | RSI: 42.72 -> 45.11 | Son pivot: 2026-11-21 12:00 UTC
+YENI | W (WUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.00884 -> 0.00825 (-6.674%) | RSI: 25.60 -> 42.15 | Son pivot: 2026-11-21 12:00 UTC
+YENI | ZEC (ZECUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 930.49 -> 807.95 (-13.169%) | RSI: 38.79 -> 40.63 | Son pivot: 2026-11-21 12:00 UTC
+YENI | XEC (XECUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 5.31e-06 -> 5.15e-06 (-3.013%) | RSI: 42.68 -> 48.35 | Son pivot: 2026-11-21 12:00 UTC
+YENI | RLC (RLCUSDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.3497 -> 0.3169 (-9.379%) | RSI: 34.14 -> 42.85 | Son pivot: 2026-11-21 12:00 UTC
+YENI | 牛来 (牛来USDT) | 4 saat | HIDDEN_BEARISH | Fiyat: 0.04489 -> 0.04 (-10.893%) | RSI: 39.65 -> 41.28 | Son pivot: 2026-11-21 12:00 UTC
+YENI | HUMA (HUMAUSDT) | 4 saat | HIDDEN_BULLISH | Fiyat: 0.008 -> 0.00827 (3.375%) | RSI: 51.92 -> 49.52 | Son pivot: 2026-11-21 08:00 UTC
+YENI | DODO (DODOUSDT) | 4 saat | REGULAR_BEARISH | Fiyat: 0.03511 -> 0.04366 (24.352%) | RSI: 68.38 -> 60.10 | Son pivot: 2026-11-21 12:00 UTC
+YENI | SENT (SENTUSDT) | 4 saat | REGULAR_BEARISH | Fiyat: 0.01828 -> 0.02155 (17.888%) | RSI: 64.30 -> 54.21 | Son pivot: 2026-11-21 12:00 UTC
+YENI | USUAL (USUALUSDT) | 4 saat | REGULAR_BEARISH | Fiyat: 0.01181 -> 0.01205 (2.032%) | RSI: 68.67 -> 65.47 | Son pivot: 2026-11-21 12:00 UTC
+YENI | GNS (GNSUSDT) | 4 saat | REGULAR_BULLISH | Fiyat: 0.288 -> 0.281 (-2.431%) | RSI: 27.57 -> 30.54 | Son pivot: 2026-11-21 08:00 UTC
+YENI | JST (JSTUSDT) | 4 saat | REGULAR_BULLISH | Fiyat: 0.14111 -> 0.13912 (-1.410%) | RSI: 41.79 -> 50.76 | Son pivot: 2026-11-21 12:00 UTC
+YENI | BANANAS31 (BANANAS31USDT) | 1 gun | HIDDEN_BEARISH | Fiyat: 0.00631 -> 0.005404 (-14.358%) | RSI: 33.17 -> 45.69 | Son pivot: 2026-11-17 00:00 UTC
+YENI | ZKC (ZKCUSDT) | 1 gun | HIDDEN_BEARISH | Fiyat: 0.04 -> 0.0383 (-4.250%) | RSI: 41.46 -> 53.56 | Son pivot: 2026-11-18 00:00 UTC
+YENI | FF (FFUSDT) | 1 gun | HIDDEN_BEARISH | Fiyat: 0.11533 -> 0.10654 (-7.622%) | RSI: 45.15 -> 63.03 | Son pivot: 2026-11-17 00:00 UTC
+YENI | OPG (OPGUSDT) | 1 gun | HIDDEN_BEARISH | Fiyat: 0.1641 -> 0.1457 (-11.213%) | RSI: 59.48 -> 63.47 | Son pivot: 2026-11-17 00:00 UTC
+YENI | QTUM (QTUMUSDT) | 1 gun | HIDDEN_BEARISH | Fiyat: 0.92 -> 0.673 (-26.848%) | RSI: 27.90 -> 33.89 | Son pivot: 2026-11-17 00:00 UTC
+YENI | SIGN (SIGNUSDT) | 1 gun | HIDDEN_BEARISH | Fiyat: 0.01111 -> 0.00893 (-19.622%) | RSI: 29.17 -> 39.03 | Son pivot: 2026-11-17 00:00 UTC
+YENI | XNO (XNOUSDT) | 1 gun | REGULAR_BEARISH | Fiyat: 0.335 -> 0.367 (9.552%) | RSI: 47.83 -> 41.35 | Son pivot: 2026-11-17 00:00 UTC
+YENI | BREV (BREVUSDT) | 1 gun | REGULAR_BULLISH | Fiyat: 0.0691 -> 0.0553 (-19.971%) | RSI: 34.20 -> 71.94 | Son pivot: 2026-11-17 00:00 UTC
+YENI | NXPC (NXPCUSDT) | 1 gun | REGULAR_BULLISH | Fiyat: 0.1507 -> 0.1237 (-17.916%) | RSI: 24.16 -> 32.63 | Son pivot: 2026-11-17 00:00 UTC
+YENI | ANIME (ANIMEUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.00523 -> 0.00426 (-18.547%) | RSI: 31.68 -> 38.70 | Son pivot: 2026-10-19 00:00 UTC
+YENI | AXL (AXLUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.0917 -> 0.065 (-29.117%) | RSI: 40.42 -> 50.75 | Son pivot: 2026-10-12 00:00 UTC
+YENI | CGPT (CGPTUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.0274 -> 0.02573 (-6.095%) | RSI: 28.65 -> 45.16 | Son pivot: 2026-10-12 00:00 UTC
+YENI | CYBER (CYBERUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.609 -> 0.42 (-31.034%) | RSI: 36.20 -> 40.18 | Son pivot: 2026-10-12 00:00 UTC
+YENI | GLM (GLMUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.1554 -> 0.1391 (-10.489%) | RSI: 40.11 -> 43.98 | Son pivot: 2026-10-12 00:00 UTC
+YENI | IOST (IOSTUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.002448 -> 0.001908 (-22.059%) | RSI: 41.15 -> 42.89 | Son pivot: 2026-10-19 00:00 UTC
+YENI | IOTX (IOTXUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.0055 -> 0.005 (-9.091%) | RSI: 31.10 -> 43.90 | Son pivot: 2026-10-19 00:00 UTC
+YENI | KERNEL (KERNELUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.0817 -> 0.0601 (-26.438%) | RSI: 39.89 -> 47.07 | Son pivot: 2026-10-19 00:00 UTC
+YENI | LA (LAUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.1115 -> 0.0743 (-33.363%) | RSI: 28.95 -> 36.54 | Son pivot: 2026-10-19 00:00 UTC
+YENI | ZRO (ZROUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 2.59 -> 2.483 (-4.131%) | RSI: 49.64 -> 61.00 | Son pivot: 2026-10-12 00:00 UTC
+YENI | LINEA (LINEAUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.004356 -> 0.0032 (-26.538%) | RSI: 24.74 -> 35.64 | Son pivot: 2026-10-12 00:00 UTC
+YENI | SYRUP (SYRUPUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.2778 -> 0.2706 (-2.592%) | RSI: 42.30 -> 47.48 | Son pivot: 2026-10-12 00:00 UTC
+YENI | MTL (MTLUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.375 -> 0.3615 (-3.600%) | RSI: 42.01 -> 48.02 | Son pivot: 2026-10-19 00:00 UTC
+YENI | METIS (METISUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 6.28 -> 4.49 (-28.503%) | RSI: 31.94 -> 48.49 | Son pivot: 2026-10-19 00:00 UTC
+YENI | EDU (EDUUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.0891 -> 0.0805 (-9.652%) | RSI: 32.03 -> 59.29 | Son pivot: 2026-10-12 00:00 UTC
+YENI | OP (OPUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.1819 -> 0.1625 (-10.665%) | RSI: 38.09 -> 47.32 | Son pivot: 2026-10-12 00:00 UTC
+YENI | QKC (QKCUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.00353 -> 0.00346 (-1.983%) | RSI: 35.17 -> 45.66 | Son pivot: 2026-10-12 00:00 UTC
+YENI | RENDER (RENDERUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 2.712 -> 2.233 (-17.662%) | RSI: 48.93 -> 52.05 | Son pivot: 2026-10-12 00:00 UTC
+YENI | RSR (RSRUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.003161 -> 0.002999 (-5.125%) | RSI: 33.35 -> 55.18 | Son pivot: 2026-10-12 00:00 UTC
+YENI | CTK (CTKUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.2556 -> 0.195 (-23.709%) | RSI: 35.25 -> 39.65 | Son pivot: 2026-10-12 00:00 UTC
+YENI | S (SUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.1016 -> 0.07393 (-27.234%) | RSI: 31.40 -> 54.02 | Son pivot: 2026-10-12 00:00 UTC
+YENI | SXT (SXTUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.01955 -> 0.01152 (-41.074%) | RSI: 22.38 -> 31.68 | Son pivot: 2026-10-12 00:00 UTC
+YENI | STEEM (STEEMUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 0.07835 -> 0.06919 (-11.691%) | RSI: 40.68 -> 47.76 | Son pivot: 2026-10-19 00:00 UTC
+YENI | XUSD (XUSDUSDT) | 1 hafta | HIDDEN_BEARISH | Fiyat: 1.0171 -> 1.0024 (-1.445%) | RSI: 51.28 -> 56.99 | Son pivot: 2026-10-19 00:00 UTC
