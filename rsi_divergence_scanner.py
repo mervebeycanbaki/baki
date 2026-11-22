@@ -63,6 +63,7 @@ CSV_FIELDS = [
     "new_this_scan",
     "pivot_1_utc",
     "pivot_2_utc",
+    "confirmation_utc",
     "price_1",
     "price_2",
     "price_change_pct",
@@ -373,6 +374,8 @@ def detect_divergences(candles: list[dict], coin: dict, interval: str) -> list[d
                     "signal": "BULLISH" if divergence.endswith("BULLISH") else "BEARISH",
                     "new_this_scan": "",  # Filled by deduplication state.
                     "pivot_1_utc": utc_string(candles[previous]["open_time"]),
+                    "confirmation_utc": utc_string(
+                    candles[latest + PIVOT_RIGHT]["close_time"]
                     "pivot_2_utc": utc_string(candles[latest]["open_time"]),
                     "pivot_2_open_ms": candles[latest]["open_time"],
                     "price_1": f"{price_series[previous]:.12g}",
