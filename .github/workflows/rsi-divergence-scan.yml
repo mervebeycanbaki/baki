@@ -1,0 +1,53 @@
+name: RSI Divergence Scanner
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rsi-divergence-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v7
+
+      - name: Python kur
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: RSI taramasini calistir
+        run: python rsi_divergence_scanner.py
+
+      - name: Raporlari kontrol et
+        run: |
+          test -s reports/rsi_divergence_latest.txt
+          test -s reports/rsi_divergence_latest.csv
+          test -s reports/rsi_binance_mapping_latest.csv
+          test -s reports/rsi_divergence_seen.json
+          echo "Tum RSI raporlari basariyla olusturuldu."
+
+      - name: Raporlari GitHub'a kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add reports/rsi_divergence_latest.txt
+          git add reports/rsi_divergence_latest.csv
+          git add reports/rsi_binance_mapping_latest.csv
+          git add reports/rsi_divergence_seen.json
+
+          if git diff --cached --quiet; then
+            echo "Yeni degisiklik yok."
+          else
+            git commit -m "RSI uyumsuzluk raporlari guncellendi"
+            git push
+          fi
