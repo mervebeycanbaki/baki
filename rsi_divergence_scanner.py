@@ -376,6 +376,7 @@ def detect_divergences(candles: list[dict], coin: dict, interval: str) -> list[d
                     "pivot_1_utc": utc_string(candles[previous]["open_time"]),
                     "confirmation_utc": utc_string(
                     candles[latest + PIVOT_RIGHT]["close_time"]
+                    ),
                     "pivot_2_utc": utc_string(candles[latest]["open_time"]),
                     "pivot_2_open_ms": candles[latest]["open_time"],
                     "price_1": f"{price_series[previous]:.12g}",
