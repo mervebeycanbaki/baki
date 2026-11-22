@@ -1,3 +1,4 @@
+
 name: RSI Divergence Scanner
 
 on:
@@ -27,10 +28,11 @@ jobs:
       - name: RSI taramasini calistir
         run: python rsi_divergence_scanner.py
 
-      - name: Raporlari kontrol et
+      - name: Rapor dosyalarini kontrol et
         run: |
           test -s reports/rsi_divergence_latest.txt
           test -s reports/rsi_divergence_latest.csv
+          test -s reports/rsi_divergence_matrix_latest.csv
           test -s reports/rsi_binance_mapping_latest.csv
           test -s reports/rsi_divergence_seen.json
           echo "Tum RSI raporlari basariyla olusturuldu."
@@ -42,12 +44,13 @@ jobs:
 
           git add reports/rsi_divergence_latest.txt
           git add reports/rsi_divergence_latest.csv
+          git add reports/rsi_divergence_matrix_latest.csv
           git add reports/rsi_binance_mapping_latest.csv
           git add reports/rsi_divergence_seen.json
 
           if git diff --cached --quiet; then
             echo "Yeni degisiklik yok."
           else
-            git commit -m "RSI uyumsuzluk raporlari guncellendi"
+            git commit -m "RSI coklu zaman dilimi raporu guncellendi"
             git push
           fi
