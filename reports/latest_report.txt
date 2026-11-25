@@ -1,110 +1,112 @@
 CMC HACIM TARAMA RAPORU
-Veri tarihi (UTC): 2026-11-23
+Veri tarihi (UTC): 2026-11-24
 Taranan coin: 999
-Yeterli gecmisi olmayan / degerlendirilemeyen coin: 101
-Degerlendirilen coin: 898
-Sinyal: 98
+Yeterli gecmisi olmayan / degerlendirilemeyen coin: 99
+Degerlendirilen coin: 900
+Sinyal: 200
 
 Kural: Son 24 saatlik hacim, mevcut 30/90/180/365 gunluk ortalamalarin en az 3'unden buyuk olmali.
 730 gunluk ortalama: Yeterli veri birikene kadar devre disi.
 Not: Hacim verisi UTC gununun ilk aninda olculen 24 saatlik kayan hacimdir; mumun gunluk hacmi degildir.
 
 SINYAL LISTESI
-COLLECT | Collect on Fanable | Sinyal: 4/4 | Son hacim: $201,623,418 | En yuksek oran: 19.52x
-XVG | Verge | Sinyal: 4/4 | Son hacim: $14,126,201 | En yuksek oran: 15.26x
-EVAA | EVAA Protocol | Sinyal: 4/4 | Son hacim: $120,140,724 | En yuksek oran: 13.94x
-PIEVERSE | Pieverse | Sinyal: 4/4 | Son hacim: $488,321,911 | En yuksek oran: 12.67x
-ACE | Fusionist | Sinyal: 4/4 | Son hacim: $66,455,356 | En yuksek oran: 12.43x
-QANX | QANplatform | Sinyal: 4/4 | Son hacim: $909,213 | En yuksek oran: 11.12x
-DRV | Derive | Sinyal: 4/4 | Son hacim: $59,960,352 | En yuksek oran: 9.45x
-ELSA | HeyElsa | Sinyal: 4/4 | Son hacim: $68,757,618 | En yuksek oran: 8.78x
-IDOL | MEET48 | Sinyal: 4/4 | Son hacim: $59,056,912 | En yuksek oran: 7.11x
-LISTA | Lista DAO | Sinyal: 4/4 | Son hacim: $13,803,857 | En yuksek oran: 6.95x
-GEOD | GEODNET | Sinyal: 4/4 | Son hacim: $13,088,186 | En yuksek oran: 6.84x
-DHN | Dohrnii | Sinyal: 4/4 | Son hacim: $9,395,293 | En yuksek oran: 6.80x
-MMT | Momentum | Sinyal: 4/4 | Son hacim: $96,192,325 | En yuksek oran: 5.91x
-BLESS | Bless | Sinyal: 4/4 | Son hacim: $25,194,600 | En yuksek oran: 5.74x
-USDY | Ondo US Dollar Yield | Sinyal: 4/4 | Son hacim: $4,897,716 | En yuksek oran: 4.72x
-ENSO | Enso | Sinyal: 4/4 | Son hacim: $49,161,203 | En yuksek oran: 4.53x
-EUSX | Solstice eUSX | Sinyal: 4/4 | Son hacim: $17,008,484 | En yuksek oran: 4.27x
-XU3O8 | xU3O8 | Sinyal: 4/4 | Son hacim: $3,816,387 | En yuksek oran: 3.69x
-GT | GateToken | Sinyal: 4/4 | Son hacim: $12,302,815 | En yuksek oran: 3.34x
-BLUR | Blur | Sinyal: 4/4 | Son hacim: $92,487,399 | En yuksek oran: 3.28x
-AAPLX | Apple tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $18,412,532 | En yuksek oran: 3.25x
-FELY | Felysyum | Sinyal: 4/4 | Son hacim: $1,194,505 | En yuksek oran: 3.20x
-W | Wormhole | Sinyal: 4/4 | Son hacim: $174,931,404 | En yuksek oran: 2.96x
-LAB | LAB | Sinyal: 4/4 | Son hacim: $46,970,168 | En yuksek oran: 2.93x
-VOW | Vow | Sinyal: 4/4 | Son hacim: $324,623 | En yuksek oran: 2.77x
-BERA | Berachain | Sinyal: 4/4 | Son hacim: $60,867,383 | En yuksek oran: 2.62x
-BULLA | Bulla | Sinyal: 4/4 | Son hacim: $6,603,819 | En yuksek oran: 2.57x
-ORCA | Orca | Sinyal: 4/4 | Son hacim: $29,719,332 | En yuksek oran: 2.56x
-RARE | SuperRare | Sinyal: 4/4 | Son hacim: $25,328,108 | En yuksek oran: 2.56x
-REKT | Rekt (rekt.com) | Sinyal: 4/4 | Son hacim: $603,244 | En yuksek oran: 2.52x
-CCD | Concordium | Sinyal: 4/4 | Son hacim: $512,710 | En yuksek oran: 2.50x
-SXT | Space and Time | Sinyal: 4/4 | Son hacim: $94,744,485 | En yuksek oran: 2.45x
-NAORIS | NaoX Protocol | Sinyal: 4/4 | Son hacim: $4,311,770 | En yuksek oran: 2.34x
-TGBP | Tokenised GBP | Sinyal: 4/4 | Son hacim: $149,015 | En yuksek oran: 2.27x
-COINDEPO | COINDEPO | Sinyal: 4/4 | Son hacim: $2,985,176 | En yuksek oran: 2.14x
-SPYon | SPDR S&P 500 Tokenized ETF (Ondo) | Sinyal: 4/4 | Son hacim: $4,766,299 | En yuksek oran: 2.06x
-USDCV | USD CoinVertible | Sinyal: 4/4 | Son hacim: $57,993,491 | En yuksek oran: 2.04x
-DODO | DODO | Sinyal: 4/4 | Son hacim: $13,514,404 | En yuksek oran: 1.93x
-VINE | Vine Coin | Sinyal: 4/4 | Son hacim: $7,189,595 | En yuksek oran: 1.89x
-PUFFER | Puffer | Sinyal: 4/4 | Son hacim: $10,135,153 | En yuksek oran: 1.86x
-ADI | ADI | Sinyal: 4/4 | Son hacim: $6,326,279 | En yuksek oran: 1.82x
-VVV | Venice Token | Sinyal: 4/4 | Son hacim: $54,854,516 | En yuksek oran: 1.82x
-IO | io.net | Sinyal: 4/4 | Son hacim: $50,520,318 | En yuksek oran: 1.68x
-UNP | UNIPOLY | Sinyal: 4/4 | Son hacim: $480,579 | En yuksek oran: 1.63x
-AAPLon | Apple Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $4,351,239 | En yuksek oran: 1.59x
-ZBCN | Zebec Network | Sinyal: 4/4 | Son hacim: $14,932,747 | En yuksek oran: 1.59x
-ACT | Act I : The AI Prophecy | Sinyal: 4/4 | Son hacim: $40,857,550 | En yuksek oran: 1.58x
-ME | Magic Eden | Sinyal: 4/4 | Son hacim: $164,719,096 | En yuksek oran: 1.54x
-AMZNon | Amazon Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $3,951,318 | En yuksek oran: 1.54x
-KAVA | Kava | Sinyal: 4/4 | Son hacim: $12,060,769 | En yuksek oran: 1.43x
-UQC | Uquid Coin | Sinyal: 4/4 | Son hacim: $43,268 | En yuksek oran: 1.41x
-CYC | Cycle Network | Sinyal: 4/4 | Son hacim: $697,018 | En yuksek oran: 1.40x
-METAon | Meta Platforms Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $4,459,345 | En yuksek oran: 1.40x
-ARARA | Araracoin | Sinyal: 4/4 | Son hacim: $18,729 | En yuksek oran: 1.38x
-QQQon | Invesco QQQ Tokenized ETF (Ondo) | Sinyal: 4/4 | Son hacim: $4,833,120 | En yuksek oran: 1.38x
-ARKM | Arkham | Sinyal: 4/4 | Son hacim: $54,973,974 | En yuksek oran: 1.36x
-NILA | MindWaveDAO | Sinyal: 4/4 | Son hacim: $336,791 | En yuksek oran: 1.30x
-LBT | Law Blocks (AI) | Sinyal: 4/4 | Son hacim: $702,296 | En yuksek oran: 1.19x
-UP | Unitas | Sinyal: 3/3 | Son hacim: $834,481,211 | En yuksek oran: 18.05x
-AI | Gensyn | Sinyal: 3/3 | Son hacim: $30,773,820 | En yuksek oran: 9.33x
-rQQQ | Invesco QQQ Tokenized Stock (Reality) | Sinyal: 3/3 | Son hacim: $2,237,212 | En yuksek oran: 7.47x
-GROW | Grow | Sinyal: 3/4 | Son hacim: $1,754,488 | En yuksek oran: 6.06x
-PRL | Perle | Sinyal: 3/3 | Son hacim: $31,987,124 | En yuksek oran: 5.49x
-GUSD | GUSD | Sinyal: 3/4 | Son hacim: $543,768 | En yuksek oran: 5.27x
-AKE | AKEDO | Sinyal: 3/4 | Son hacim: $79,499,886 | En yuksek oran: 3.70x
-PROM | Prom | Sinyal: 3/4 | Son hacim: $31,565,664 | En yuksek oran: 3.66x
-ARIA | AriaAI | Sinyal: 3/4 | Son hacim: $18,756,262 | En yuksek oran: 3.25x
-USDGO | USDGO | Sinyal: 3/3 | Son hacim: $56,208,807 | En yuksek oran: 2.94x
-MEY | Mey Network | Sinyal: 3/4 | Son hacim: $1,288,949 | En yuksek oran: 2.17x
-NIGHT | Midnight | Sinyal: 3/4 | Son hacim: $58,746,015 | En yuksek oran: 2.06x
-SOGNI | Sogni AI | Sinyal: 3/4 | Son hacim: $115,726 | En yuksek oran: 2.05x
-STBL | STBL | Sinyal: 3/4 | Son hacim: $3,825,412 | En yuksek oran: 1.97x
-XP | Xphere | Sinyal: 3/4 | Son hacim: $2,240,528 | En yuksek oran: 1.96x
-AB | AB | Sinyal: 3/4 | Son hacim: $999,049 | En yuksek oran: 1.86x
-SSV | ssv.network | Sinyal: 3/4 | Son hacim: $11,215,194 | En yuksek oran: 1.85x
-SC | Siacoin | Sinyal: 3/4 | Son hacim: $6,575,749 | En yuksek oran: 1.84x
-XSGD | XSGD | Sinyal: 3/4 | Son hacim: $625,258 | En yuksek oran: 1.72x
-LEO | UNUS SED LEO | Sinyal: 3/4 | Son hacim: $646,341 | En yuksek oran: 1.70x
-YUSD | Aegis YUSD | Sinyal: 3/4 | Son hacim: $28,683 | En yuksek oran: 1.64x
-WIN | WINkLink | Sinyal: 3/4 | Son hacim: $16,138,238 | En yuksek oran: 1.64x
-WFI | WeFi | Sinyal: 3/4 | Son hacim: $2,339,331 | En yuksek oran: 1.62x
-GOLDGR | Goldgr | Sinyal: 3/4 | Son hacim: $1,673 | En yuksek oran: 1.60x
-FCT | FirmaChain | Sinyal: 3/4 | Son hacim: $550,811 | En yuksek oran: 1.57x
-APTM | Apertum | Sinyal: 3/4 | Son hacim: $637,882 | En yuksek oran: 1.56x
-EGL1 | EGL1 | Sinyal: 3/4 | Son hacim: $1,775,098 | En yuksek oran: 1.56x
-0G | 0G | Sinyal: 3/4 | Son hacim: $29,943,540 | En yuksek oran: 1.48x
-EURCV | EUR CoinVertible | Sinyal: 3/4 | Son hacim: $27,377,106 | En yuksek oran: 1.43x
-PROS | Pharos | Sinyal: 3/3 | Son hacim: $9,213,554 | En yuksek oran: 1.40x
-TRUMP | OFFICIAL TRUMP | Sinyal: 3/4 | Son hacim: $338,906,253 | En yuksek oran: 1.38x
-SAPIEN | Sapien | Sinyal: 3/4 | Son hacim: $3,999,609 | En yuksek oran: 1.38x
-IRYS | Irys | Sinyal: 3/4 | Son hacim: $40,211,969 | En yuksek oran: 1.35x
-APEPE | Ape and Pepe | Sinyal: 3/4 | Son hacim: $19,447,797 | En yuksek oran: 1.34x
-ELG | EscoinToken | Sinyal: 3/4 | Son hacim: $396,543 | En yuksek oran: 1.30x
-KERNEL | KernelDAO | Sinyal: 3/4 | Son hacim: $10,922,675 | En yuksek oran: 1.27x
-ETN | Electroneum | Sinyal: 3/4 | Son hacim: $320,159 | En yuksek oran: 1.27x
-TBK | TronBank | Sinyal: 3/4 | Son hacim: $279,461 | En yuksek oran: 1.24x
-LINEA | Linea | Sinyal: 3/4 | Son hacim: $12,545,981 | En yuksek oran: 1.22x
-AIAT | AI Analysis Token | Sinyal: 3/4 | Son hacim: $379,561 | En yuksek oran: 1.04x
+SANC | Sanctum | Sinyal: 4/4 | Son hacim: $48,150,320 | En yuksek oran: 54.53x
+PROM | Prom | Sinyal: 4/4 | Son hacim: $156,908,427 | En yuksek oran: 16.48x
+COLLECT | Collect on Fanable | Sinyal: 4/4 | Son hacim: $187,228,791 | En yuksek oran: 16.47x
+LISTA | Lista DAO | Sinyal: 4/4 | Son hacim: $34,976,451 | En yuksek oran: 14.72x
+NVDAX | NVIDIA tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $210,327,568 | En yuksek oran: 12.46x
+ELSA | HeyElsa | Sinyal: 4/4 | Son hacim: $96,572,914 | En yuksek oran: 11.80x
+ARIA | AriaAI | Sinyal: 4/4 | Son hacim: $45,987,046 | En yuksek oran: 7.85x
+PIEVERSE | Pieverse | Sinyal: 4/4 | Son hacim: $306,059,738 | En yuksek oran: 7.44x
+EUSX | Solstice eUSX | Sinyal: 4/4 | Son hacim: $29,650,679 | En yuksek oran: 7.35x
+EVAA | EVAA Protocol | Sinyal: 4/4 | Son hacim: $63,889,152 | En yuksek oran: 7.15x
+DHN | Dohrnii | Sinyal: 4/4 | Son hacim: $9,239,134 | En yuksek oran: 6.57x
+CYS | Cysic | Sinyal: 4/4 | Son hacim: $25,537,449 | En yuksek oran: 6.20x
+MUBARAK | Mubarak | Sinyal: 4/4 | Son hacim: $52,559,923 | En yuksek oran: 6.03x
+NVDAon | NVIDIA Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $21,355,434 | En yuksek oran: 5.80x
+SKY | Sky | Sinyal: 4/4 | Son hacim: $116,270,105 | En yuksek oran: 5.71x
+ACE | Fusionist | Sinyal: 4/4 | Son hacim: $40,949,642 | En yuksek oran: 5.69x
+INTCX | Intel tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $6,486,583 | En yuksek oran: 5.53x
+LAB | LAB | Sinyal: 4/4 | Son hacim: $86,604,944 | En yuksek oran: 5.27x
+SPYon | SPDR S&P 500 Tokenized ETF (Ondo) | Sinyal: 4/4 | Son hacim: $12,185,906 | En yuksek oran: 5.24x
+BLESS | Bless | Sinyal: 4/4 | Son hacim: $22,242,006 | En yuksek oran: 4.80x
+EGLD | MultiversX | Sinyal: 4/4 | Son hacim: $24,631,742 | En yuksek oran: 4.51x
+USDCV | USD CoinVertible | Sinyal: 4/4 | Son hacim: $120,421,901 | En yuksek oran: 4.21x
+SC | Siacoin | Sinyal: 4/4 | Son hacim: $15,390,206 | En yuksek oran: 4.21x
+BLUR | Blur | Sinyal: 4/4 | Son hacim: $117,618,519 | En yuksek oran: 4.15x
+DRV | Derive | Sinyal: 4/4 | Son hacim: $26,815,284 | En yuksek oran: 4.12x
+QQQX | Nasdaq tokenized ETF (xStock) | Sinyal: 4/4 | Son hacim: $11,133,517 | En yuksek oran: 3.68x
+XSGD | XSGD | Sinyal: 4/4 | Son hacim: $1,326,085 | En yuksek oran: 3.63x
+MMT | Momentum | Sinyal: 4/4 | Son hacim: $55,148,704 | En yuksek oran: 3.20x
+REKT | Rekt (rekt.com) | Sinyal: 4/4 | Son hacim: $770,316 | En yuksek oran: 3.19x
+USDG | Global Dollar | Sinyal: 4/4 | Son hacim: $633,712,360 | En yuksek oran: 3.18x
+FELY | Felysyum | Sinyal: 4/4 | Son hacim: $1,183,379 | En yuksek oran: 3.15x
+STBL | STBL | Sinyal: 4/4 | Son hacim: $5,996,530 | En yuksek oran: 3.07x
+QNT | Quant | Sinyal: 4/4 | Son hacim: $116,337,072 | En yuksek oran: 2.99x
+HP | Hippo Protocol | Sinyal: 4/4 | Son hacim: $1,349,743 | En yuksek oran: 2.95x
+ABT | ArcBlock | Sinyal: 4/4 | Son hacim: $255,069 | En yuksek oran: 2.89x
+BERA | Berachain | Sinyal: 4/4 | Son hacim: $66,956,416 | En yuksek oran: 2.86x
+USX | Solstice USX | Sinyal: 4/4 | Son hacim: $12,424,562 | En yuksek oran: 2.85x
+AAPLX | Apple tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $16,165,400 | En yuksek oran: 2.84x
+BULLA | Bulla | Sinyal: 4/4 | Son hacim: $7,294,779 | En yuksek oran: 2.81x
+AIOT | OKZOO | Sinyal: 4/4 | Son hacim: $4,544,361 | En yuksek oran: 2.80x
+ZCHF | Frankencoin | Sinyal: 4/4 | Son hacim: $1,225,964 | En yuksek oran: 2.75x
+TGBP | Tokenised GBP | Sinyal: 4/4 | Son hacim: $180,967 | En yuksek oran: 2.74x
+W | Wormhole | Sinyal: 4/4 | Son hacim: $161,000,476 | En yuksek oran: 2.71x
+EURCV | EUR CoinVertible | Sinyal: 4/4 | Son hacim: $51,366,357 | En yuksek oran: 2.68x
+SXT | Space and Time | Sinyal: 4/4 | Son hacim: $102,374,341 | En yuksek oran: 2.63x
+USAT | USAT | Sinyal: 4/4 | Son hacim: $9,065,292 | En yuksek oran: 2.58x
+CYBER | Cyber | Sinyal: 4/4 | Son hacim: $29,139,656 | En yuksek oran: 2.51x
+KUB | KUB Coin | Sinyal: 4/4 | Son hacim: $530,165 | En yuksek oran: 2.50x
+BREV | Brevis | Sinyal: 4/4 | Son hacim: $32,461,596 | En yuksek oran: 2.48x
+DEOD | Decentrawood | Sinyal: 4/4 | Son hacim: $1,399,085 | En yuksek oran: 2.45x
+XU3O8 | xU3O8 | Sinyal: 4/4 | Son hacim: $2,557,551 | En yuksek oran: 2.45x
+MSTRX | MicroStrategy tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $12,326,399 | En yuksek oran: 2.42x
+APEX | ApeX Protocol | Sinyal: 4/4 | Son hacim: $3,431,539 | En yuksek oran: 2.34x
+AAPLon | Apple Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $6,349,343 | En yuksek oran: 2.32x
+HYPE | Hyperliquid | Sinyal: 4/4 | Son hacim: $1,343,208,253 | En yuksek oran: 2.30x
+TSLAon | Tesla Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $10,507,250 | En yuksek oran: 2.27x
+METAon | Meta Platforms Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $7,196,487 | En yuksek oran: 2.25x
+VVV | Venice Token | Sinyal: 4/4 | Son hacim: $67,535,727 | En yuksek oran: 2.23x
+RLUSD | Ripple USD | Sinyal: 4/4 | Son hacim: $382,040,114 | En yuksek oran: 2.14x
+XUSD | StraitsX USD | Sinyal: 4/4 | Son hacim: $17,272,607 | En yuksek oran: 2.09x
+ARKM | Arkham | Sinyal: 4/4 | Son hacim: $84,606,911 | En yuksek oran: 2.09x
+WAVES | Waves | Sinyal: 4/4 | Son hacim: $12,232,356 | En yuksek oran: 2.07x
+HOODX | Robinhood tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $9,250,940 | En yuksek oran: 2.07x
+WFI | WeFi | Sinyal: 4/4 | Son hacim: $3,020,422 | En yuksek oran: 2.06x
+COINDEPO | COINDEPO | Sinyal: 4/4 | Son hacim: $2,878,978 | En yuksek oran: 2.05x
+QQQon | Invesco QQQ Tokenized ETF (Ondo) | Sinyal: 4/4 | Son hacim: $7,229,706 | En yuksek oran: 2.03x
+0G | 0G | Sinyal: 4/4 | Son hacim: $41,204,159 | En yuksek oran: 2.02x
+KAVA | Kava | Sinyal: 4/4 | Son hacim: $17,272,814 | En yuksek oran: 2.02x
+MAX | MAX Exchange Token | Sinyal: 4/4 | Son hacim: $107,826 | En yuksek oran: 2.01x
+GOOGLon | Alphabet Class A Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $11,098,827 | En yuksek oran: 1.94x
+PEAQ | peaq | Sinyal: 4/4 | Son hacim: $3,969,883 | En yuksek oran: 1.92x
+ME | Magic Eden | Sinyal: 4/4 | Son hacim: $196,680,048 | En yuksek oran: 1.83x
+AMZNon | Amazon Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $4,703,182 | En yuksek oran: 1.83x
+ELG | EscoinToken | Sinyal: 4/4 | Son hacim: $557,334 | En yuksek oran: 1.82x
+EURC | EURC | Sinyal: 4/4 | Son hacim: $77,792,965 | En yuksek oran: 1.82x
+LQR | Laqira Protocol | Sinyal: 4/4 | Son hacim: $502,236 | En yuksek oran: 1.78x
+PDDon | PDD Holdings Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $1,717,733 | En yuksek oran: 1.78x
+ALGO | Algorand | Sinyal: 4/4 | Son hacim: $85,272,700 | En yuksek oran: 1.77x
+USDC | USDC | Sinyal: 4/4 | Son hacim: $20,495,840,922 | En yuksek oran: 1.74x
+ACT | Act I : The AI Prophecy | Sinyal: 4/4 | Son hacim: $45,415,860 | En yuksek oran: 1.73x
+TUSD | TrueUSD | Sinyal: 4/4 | Son hacim: $31,340,318 | En yuksek oran: 1.73x
+JUP | Jupiter | Sinyal: 4/4 | Son hacim: $56,887,388 | En yuksek oran: 1.68x
+TSLAX | Tesla tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $22,184,702 | En yuksek oran: 1.67x
+DIEM | Diem | Sinyal: 4/4 | Son hacim: $1,398,206 | En yuksek oran: 1.64x
+TA | Trusta.AI | Sinyal: 4/4 | Son hacim: $5,334,194 | En yuksek oran: 1.58x
+MUon | Micron Technology Tokenized Stock (Ondo) | Sinyal: 4/4 | Son hacim: $9,035,781 | En yuksek oran: 1.57x
+UNP | UNIPOLY | Sinyal: 4/4 | Son hacim: $463,836 | En yuksek oran: 1.57x
+ZRO | LayerZero | Sinyal: 4/4 | Son hacim: $95,342,217 | En yuksek oran: 1.57x
+BTC | Bitcoin | Sinyal: 4/4 | Son hacim: $44,948,245,433 | En yuksek oran: 1.54x
+MOVE | Movement | Sinyal: 4/4 | Son hacim: $37,134,858 | En yuksek oran: 1.52x
+INJ | Injective | Sinyal: 4/4 | Son hacim: $130,222,662 | En yuksek oran: 1.52x
+BUSD | BUSD | Sinyal: 4/4 | Son hacim: $1,370,259 | En yuksek oran: 1.51x
+XRP | XRP | Sinyal: 4/4 | Son hacim: $3,209,896,771 | En yuksek oran: 1.48x
+SOL | Solana | Sinyal: 4/4 | Son hacim: $4,116,065,719 | En yuksek oran: 1.46x
+TRUMP | OFFICIAL TRUMP | Sinyal: 4/4 | Son hacim: $347,473,985 | En yuksek oran: 1.41x
+TORN | Tornado Cash | Sinyal: 4/4 | Son hacim: $122,237 | En yuksek oran: 1.41x
+ONE | ONEchain | Sinyal: 4/4 | Son hacim: $6,123,368 | En yuksek oran: 1.40x
+GOOGLX | Alphabet tokenized stock (xStock) | Sinyal: 4/4 | Son hacim: $19,873,018 | En yuksek oran: 1.39x
+ARARA | Araracoin | Sinyal: 4/4 | Son hacim: $18,914 | En yuksek oran: 1.39x
+AAVE | Aave | Sinyal: 4/4 | Son hacim: $319,381,236 | En yuksek oran: 1.34x
