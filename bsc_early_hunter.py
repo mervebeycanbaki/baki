@@ -8,11 +8,18 @@ from datetime import datetime, timezone
 
 BASE_URL = "https://api.dexscreener.com"
 
-# İlk test filtreleri
+# Tarama filtreleri
 MIN_LIQUIDITY_USD = 5000
 MIN_VOLUME_5M_USD = 1000
 MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
+
+# Sinyal geçmişi
+SIGNAL_HISTORY_FILE = Path("bsc_signal_history.json")
+SCORE_ALERT_INCREASE = 10
+MAX_ALERTS_PER_SCAN = 20
+
+
 def send_telegram(message):
     bot_token = os.getenv("BSC_TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("BSC_TELEGRAM_CHAT_ID")
@@ -49,37 +56,45 @@ def send_telegram(message):
         return False
 
 
-SIGNAL_HISTORY_FILE = Path("bsc_signal_history.json")
-SCORE_ALERT_INCREASE = 10
-
-
 def load_signal_history():
     if not SIGNAL_HISTORY_FILE.exists():
         return {}
 
     try:
-        return json.loads(
+        data = json.loads(
             SIGNAL_HISTORY_FILE.read_text(encoding="utf-8")
         )
+
+        return data if isinstance(data, dict) else {}
+
     except Exception as e:
         print("SINYAL GECMISI OKUNAMADI:", e)
         return {}
 
 
 def save_signal_history(history):
-    SIGNAL_HISTORY_FILE.write_text(
-        json.dumps(history, ensure_ascii=False, indent=2),
-        encoding="utf-8"
-    )
+    try:
+        SIGNAL_HISTORY_FILE.write_text(
+            json.dumps(history, ensure_ascii=False, indent=2),
+            encoding="utf-8"
+        )
+        print("Sinyal gecmisi kaydedildi.")
+
+    except Exception as e:
+        print("SINYAL GECMISI KAYDEDILEMEDI:", e)
+
 
 def process_signals(candidates, history):
-    for item in candidates[:20]:
+    alert_count = 0
+
+    for item in candidates[:MAX_ALERTS_PER_SCAN]:
+
         pair = item["pair"]
         base = pair.get("baseToken") or {}
-        quote = pair.get("quoteToken") or {}
         security = item.get("security") or {}
 
         address = base.get("address", "")
+
         if not address:
             continue
 
@@ -89,8 +104,8 @@ def process_signals(candidates, history):
         previous = history.get(key, {})
         previous_score = previous.get("alert_score")
 
-        # İlk kez bulunan coin veya en az 10 puanlık artış
         is_new = previous_score is None
+
         score_increased = (
             previous_score is not None
             and score >= previous_score + SCORE_ALERT_INCREASE
@@ -100,9 +115,10 @@ def process_signals(candidates, history):
             continue
 
         warnings = security.get("flags") or []
+
         warning_text = "\n".join(
             f"⚠️ {warning}" for warning in warnings
-        ) if warnings else "Belirgin risk işareti bulunmadı"
+        ) if warnings else "Belirgin risk isareti bulunmadi"
 
         message = (
             f"🚨 BSC ERKEN COIN SINYALI\n\n"
@@ -111,14 +127,14 @@ def process_signals(candidates, history):
             f"⭐ Skor: {score}/100\n"
             f"💧 Likidite: ${item['liquidity']:,.2f}\n"
             f"📊 5 DK Hacim: ${item['volume5m']:,.2f}\n"
-            f"🟢 Alım: {item['buys']}\n"
-            f"🔴 Satım: {item['sells']}\n"
-            f"⏱️ Yaş: {item['age_hours']:.2f} saat\n\n"
-            f"🔐 Güvenlik: {security.get('status', 'Bilinmiyor')}\n"
+            f"🟢 Alim: {item['buys']}\n"
+            f"🔴 Satim: {item['sells']}\n"
+            f"⏱️ Yas: {item['age_hours']:.2f} saat\n\n"
+            f"🔐 Guvenlik: {security.get('status', 'Bilinmiyor')}\n"
             f"{warning_text}\n\n"
             f"📄 Kontrat:\n{address}\n\n"
             f"🔗 DexScreener: {pair.get('url', '')}\n\n"
-            f"⚠️ Bu bir erken uyarıdır, yatırım tavsiyesi değildir."
+            f"⚠️ Bu bir erken uyaridir, yatirim tavsiyesi degildir."
         )
 
         if send_telegram(message):
@@ -129,7 +145,11 @@ def process_signals(candidates, history):
                 "symbol": base.get("symbol", "?")
             }
 
+            alert_count += 1
 
+        time.sleep(1)
+
+    print("Gonderilen sinyal sayisi:", alert_count)
 
 
 def get_latest_tokens():
@@ -241,23 +261,11 @@ def get_latest_tokens():
 
     return tokens
 
-    for item in data:
-        if item.get("chainId") != "bsc":
-            continue
-
-        address = item.get("tokenAddress")
-
-        if address and address not in seen:
-            seen.add(address)
-            tokens.append(address)
-
-    return tokens
-
 
 def get_token_pairs(addresses):
     results = []
 
-    # API çağrılarında 30 tokenlık gruplar
+    # API cagrisinda 30 tokenlik gruplar
     for i in range(0, len(addresses), 30):
         batch = addresses[i:i + 30]
 
@@ -273,7 +281,7 @@ def get_token_pairs(addresses):
                 results.extend(data)
 
         except Exception as e:
-            print("Veri grubu alınamadı:", e)
+            print("Veri grubu alinamadi:", e)
 
         time.sleep(0.3)
 
@@ -290,6 +298,7 @@ def calculate_score(pair):
 
     vol5m = volume.get("m5", 0) or 0
     tx5m = txns.get("m5") or {}
+
     buys = tx5m.get("buys", 0) or 0
     sells = tx5m.get("sells", 0) or 0
 
@@ -333,8 +342,6 @@ def calculate_score(pair):
     return min(score, 100)
 
 
-
-
 def get_goplus_security(address):
     url = "https://api.gopluslabs.io/api/v1/token_security/56"
 
@@ -361,7 +368,7 @@ def get_goplus_security(address):
         if str(payload.get("code")) != "1":
             return failed(
                 "API YANITI HATALI",
-                "GoPlus güvenlik verisi doğrulanamadı"
+                "GoPlus guvenlik verisi dogrulanamadi"
             )
 
         result = payload.get("result") or {}
@@ -374,8 +381,8 @@ def get_goplus_security(address):
 
         if not isinstance(info, dict):
             return failed(
-                "VERİ BULUNAMADI",
-                "Token için GoPlus kaydı bulunamadı"
+                "VERI BULUNAMADI",
+                "Token icin GoPlus kaydi bulunamadi"
             )
 
         warnings = []
@@ -385,40 +392,45 @@ def get_goplus_security(address):
             critical.append("HONEYPOT tespit edildi")
 
         if str(info.get("cannot_buy", "")) == "1":
-            critical.append("Token satın alınamıyor")
+            critical.append("Token satin alinamiyor")
 
-        # Vergi oranlarını kontrol et
+        # Satis vergisi
         try:
             sell_tax = float(info.get("sell_tax", ""))
+
             if sell_tax >= 0.50:
                 critical.append(
-                    f"Kritik satış vergisi: %{sell_tax * 100:.1f}"
+                    f"Kritik satis vergisi: %{sell_tax * 100:.1f}"
                 )
             elif sell_tax >= 0.20:
                 warnings.append(
-                    f"Yüksek satış vergisi: %{sell_tax * 100:.1f}"
+                    f"Yuksek satis vergisi: %{sell_tax * 100:.1f}"
                 )
-        except (ValueError, TypeError):
-            warnings.append("Satış vergisi doğrulanamadı")
 
+        except (ValueError, TypeError):
+            warnings.append("Satis vergisi dogrulanamadi")
+
+        # Alis vergisi
         try:
             buy_tax = float(info.get("buy_tax", ""))
+
             if buy_tax >= 0.20:
                 warnings.append(
-                    f"Yüksek alış vergisi: %{buy_tax * 100:.1f}"
+                    f"Yuksek alis vergisi: %{buy_tax * 100:.1f}"
                 )
+
         except (ValueError, TypeError):
-            warnings.append("Alış vergisi doğrulanamadı")
+            warnings.append("Alis vergisi dogrulanamadi")
 
         risk_fields = {
-            "cannot_sell_all": "Tek seferde tüm token satılamayabilir",
+            "cannot_sell_all": "Tek seferde tum token satilamayabilir",
             "is_mintable": "Yeni token basma yetkisi var",
-            "owner_change_balance": "Sahip bakiyeleri değiştirebilir",
-            "hidden_owner": "Gizli sahiplik işareti",
-            "can_take_back_ownership": "Sahiplik geri alınabilir",
-            "slippage_modifiable": "Vergi oranı değiştirilebilir",
+            "owner_change_balance": "Sahip bakiyeleri degistirebilir",
+            "hidden_owner": "Gizli sahiplik isareti",
+            "can_take_back_ownership": "Sahiplik geri alinabilir",
+            "slippage_modifiable": "Vergi orani degistirilebilir",
             "transfer_pausable": "Transferler durdurulabilir",
-            "is_blacklisted": "Kara liste özelliği var"
+            "is_blacklisted": "Kara liste ozelligi var"
         }
 
         for field, message in risk_fields.items():
@@ -426,14 +438,14 @@ def get_goplus_security(address):
                 warnings.append(message)
 
         if str(info.get("is_open_source", "")) == "0":
-            warnings.append("Kontrat kaynak kodu açık değil")
+            warnings.append("Kontrat kaynak kodu acik degil")
 
         if critical:
-            status = "KRİTİK RİSK - ELE"
+            status = "KRITIK RISK - ELE"
         elif warnings:
-            status = "RİSK UYARISI"
+            status = "RISK UYARISI"
         else:
-            status = "BELİRGİN RİSK İŞARETİ BULUNMADI"
+            status = "BELIRGIN RISK ISARETI BULUNMADI"
 
         return {
             "status": status,
@@ -447,14 +459,11 @@ def get_goplus_security(address):
         return failed("GOPLUS HTTP HATASI", str(e))
 
     except Exception as e:
-        return failed("GOPLUS KONTROL EDİLEMEDİ", str(e))
-
-
-
+        return failed("GOPLUS KONTROL EDILEMEDI", str(e))
 
 
 def analyze_pairs(pairs):
-    # Her kontrat için yalnızca en iyi pariteyi sakla
+    # Her kontrat icin yalnizca en iyi pariteyi sakla
     best_candidates = {}
 
     now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
@@ -503,7 +512,7 @@ def analyze_pairs(pairs):
 
         key = address.lower()
 
-        # Aynı kontrat için güvenlik kontrolünü bir kez yap
+        # Ayni kontrat icin guvenlik kontrolunu bir kez yap
         if key not in security_cache:
             security_cache[key] = get_goplus_security(address)
             time.sleep(2.1)
@@ -535,7 +544,6 @@ def analyze_pairs(pairs):
             "security": security
         }
 
-        # Aynı kontratın en yüksek puanlı paritesini tut
         previous = best_candidates.get(key)
 
         if previous is None:
@@ -550,6 +558,7 @@ def analyze_pairs(pairs):
         ):
             best_candidates[key] = candidate
 
+    # Tum en iyi adaylari listeye aktar
     candidates = list(best_candidates.values())
 
     candidates.sort(
@@ -567,7 +576,10 @@ def main():
 
     print("=" * 50)
     print("BSC ERKEN COIN AVCISI")
-    print("Tarama:", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
+    print(
+        "Tarama:",
+        datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    )
     print("=" * 50)
 
     try:
@@ -576,19 +588,22 @@ def main():
         print("Bulunan BSC token adresi:", len(tokens))
 
         if not tokens:
-            print("Token bulunamadı.")
+            print("Token bulunamadi.")
             return
 
         pairs = get_token_pairs(tokens)
 
         print("Toplam parite:", len(pairs))
 
-       candidates = analyze_pairs(pairs)
+        candidates = analyze_pairs(pairs)
 
+        # Yeni sinyalleri Telegram'a gonder
         process_signals(candidates, history)
+
+        # Gecmisi kaydet
         save_signal_history(history)
 
-        print("Filtreyi geçen parite:", len(candidates))
+        print("Filtreyi gecen parite:", len(candidates))
         print()
 
         for item in candidates[:20]:
@@ -597,13 +612,11 @@ def main():
             base = pair.get("baseToken") or {}
             quote = pair.get("quoteToken") or {}
 
-           
-            
             print("-" * 50)
             print("TOKEN:", base.get("name", "Unknown"))
             print("SYMBOL:", base.get("symbol", "?"))
             print("SKOR:", item["score"], "/100")
-            print("YAŞ:", round(item["age_hours"], 2), "saat")
+            print("YAS:", round(item["age_hours"], 2), "saat")
             print("LIKIDITE: $", round(item["liquidity"], 2))
             print("5 DK HACIM: $", round(item["volume5m"], 2))
             print("5 DK ALIM:", item["buys"])
@@ -615,24 +628,31 @@ def main():
 
             security = item.get("security") or {}
 
-            print("GOPLUS DURUM:", security.get("status", "Kontrol yok"))
+            print(
+                "GOPLUS DURUM:",
+                security.get("status", "Kontrol yok")
+            )
 
             if security.get("flags"):
-                print("GOPLUS UYARILARI:",
-                      "; ".join(security["flags"]))
+                print(
+                    "GOPLUS UYARILARI:",
+                    "; ".join(security["flags"])
+                )
 
             risk_data = security.get("data") or {}
 
-            print("HONEYPOT:",
-                  risk_data.get("is_honeypot", "Bilinmiyor"))
+            print(
+                "HONEYPOT:",
+                risk_data.get("is_honeypot", "Bilinmiyor")
+            )
             print()
 
     except Exception as e:
         print("TARAMA HATASI:", str(e))
 
     print("=" * 50)
-    print("TEST TARAMASI TAMAMLANDI")
+    print("TARAMA TAMAMLANDI")
 
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
     main()
