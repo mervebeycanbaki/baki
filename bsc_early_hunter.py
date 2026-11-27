@@ -583,7 +583,10 @@ def main():
 
         print("Toplam parite:", len(pairs))
 
-        candidates = analyze_pairs(pairs)
+       candidates = analyze_pairs(pairs)
+
+        process_signals(candidates, history)
+        save_signal_history(history)
 
         print("Filtreyi geçen parite:", len(candidates))
         print()
