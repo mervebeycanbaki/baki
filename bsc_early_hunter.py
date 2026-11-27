@@ -462,6 +462,58 @@ def get_goplus_security(address):
         return failed("GOPLUS KONTROL EDILEMEDI", str(e))
 
 
+def get_gecko_buyer_seller_data(pool_addresses):
+    results = {}
+
+    # API limitlerini korumak icin 30 havuzluk gruplar
+    for i in range(0, len(pool_addresses), 30):
+        batch = pool_addresses[i:i + 30]
+
+        try:
+            url = (
+                f"{GECKO_BASE_URL}/networks/bsc/pools/multi/"
+                + ",".join(batch)
+            )
+
+            response = requests.get(
+                url,
+                headers={"Accept": "application/json;version=20230203"},
+                timeout=20
+            )
+
+            if response.status_code == 429:
+                print("GeckoTerminal API limitine ulasildi.")
+                time.sleep(60)
+                continue
+
+            response.raise_for_status()
+            data = response.json().get("data", [])
+
+            for item in data:
+                attributes = item.get("attributes") or {}
+                pool_address = attributes.get("address", "")
+
+                if not pool_address:
+                    item_id = item.get("id", "")
+                    pool_address = item_id.split("_", 1)[-1]
+
+                transactions = attributes.get("transactions") or {}
+                m5 = transactions.get("m5") or {}
+
+                if pool_address:
+                    results[pool_address.lower()] = {
+                        "buyers": m5.get("buyers", 0) or 0,
+                        "sellers": m5.get("sellers", 0) or 0
+                    }
+
+        except Exception as e:
+            print("GeckoTerminal veri hatasi:", str(e))
+
+        if i + 30 < len(pool_addresses):
+            time.sleep(7)
+
+    return results
+
 def analyze_pairs(pairs):
     # Her kontrat icin yalnizca en iyi pariteyi sakla
     best_candidates = {}
