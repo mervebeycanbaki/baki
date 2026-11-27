@@ -14,8 +14,8 @@ MIN_VOLUME_5M_USD = 1000
 MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
 def send_telegram(message):
-    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    bot_token = os.getenv("BSC_TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("BSC_TELEGRAM_CHAT_ID")
 
     if not bot_token or not chat_id:
         print("TELEGRAM HATASI: Token veya Chat ID bulunamadi.")
