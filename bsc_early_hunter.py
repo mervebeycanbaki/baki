@@ -13,13 +13,30 @@ MAX_TOKEN_AGE_DAYS = 7
 
 
 def get_latest_tokens():
+    tokens = []
+    seen = set()
+
+    def add_token(address):
+        if not isinstance(address, str):
+            return
+
+        address = address.strip()
+
+        if not address.startswith("0x") or len(address) != 42:
+            return
+
+        key = address.lower()
+
+        if key not in seen:
+            seen.add(key)
+            tokens.append(address)
+
+    # 1. DexScreener kaynaklari
     endpoints = [
+        f"{BASE_URL}/token-profiles/latest/v1",
         f"{BASE_URL}/token-boosts/latest/v1",
         f"{BASE_URL}/token-boosts/top/v1"
     ]
-
-    tokens = []
-    seen = set()
 
     for url in endpoints:
         try:
@@ -28,24 +45,79 @@ def get_latest_tokens():
 
             data = response.json()
 
-            if not isinstance(data, list):
-                continue
+            if isinstance(data, list):
+                for item in data:
+                    if item.get("chainId") == "bsc":
+                        add_token(item.get("tokenAddress"))
 
-            for item in data:
-                if item.get("chainId") != "bsc":
-                    continue
-
-                address = item.get("tokenAddress")
-
-                if address and address.lower() not in seen:
-                    seen.add(address.lower())
-                    tokens.append(address)
-
-            print("Kaynak:", url)
-            print("Bulunan BSC adresi:", len(tokens))
+            print("DexScreener kaynagi tamamlandi:", url)
 
         except Exception as e:
-            print("Kaynak hatası:", url, e)
+            print("DexScreener kaynak hatasi:", e)
+
+    # 2. GeckoTerminal BSC yeni havuzlar
+    gecko_url = (
+        "https://api.geckoterminal.com/api/v2/"
+        "networks/bsc/new_pools"
+    )
+
+    headers = {
+        "Accept": "application/json;version=20230203"
+    }
+
+    params = {
+        "include": "base_token,quote_token",
+        "page": 1
+    }
+
+    try:
+        response = requests.get(
+            gecko_url,
+            headers=headers,
+            params=params,
+            timeout=25
+        )
+
+        response.raise_for_status()
+        data = response.json()
+
+        # Dahil edilen token bilgileri
+        for item in data.get("included", []):
+            if item.get("type") == "token":
+                attributes = item.get("attributes") or {}
+                address = attributes.get("address")
+
+                if not address:
+                    resource_id = item.get("id", "")
+                    if "_" in resource_id:
+                        address = resource_id.split("_", 1)[1]
+
+                add_token(address)
+
+        # Havuz iliskilerinden token adreslerini bul
+        for pool in data.get("data", []):
+            relationships = pool.get("relationships") or {}
+
+            for token_type in ("base_token", "quote_token"):
+                token_data = (
+                    relationships.get(token_type, {}).get("data")
+                )
+
+                if not token_data:
+                    continue
+
+                token_id = token_data.get("id", "")
+
+                if "_" in token_id:
+                    address = token_id.split("_", 1)[1]
+                    add_token(address)
+
+        print("GeckoTerminal yeni havuz taramasi tamamlandi.")
+
+    except Exception as e:
+        print("GeckoTerminal kaynak hatasi:", e)
+
+    print("Toplam benzersiz BSC token adresi:", len(tokens))
 
     return tokens
 
