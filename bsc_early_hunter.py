@@ -520,6 +520,14 @@ def analyze_pairs(pairs):
 
     now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
     security_cache = {}
+    pool_addresses = [
+    pair.get("pairAddress")
+    for pair in pairs
+    if pair.get("chainId") == "bsc" and pair.get("pairAddress")
+    ]
+
+    gecko_data = get_gecko_buyer_seller_data(pool_addresses)
+    print("GeckoTerminal benzersiz cüzdan verisi:", len(gecko_data))
 
     for pair in pairs:
 
