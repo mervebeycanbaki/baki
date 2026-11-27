@@ -1,0 +1,32 @@
+
+name: BSC Erken Coin Avcisi
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Repository indir
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Gerekli kutuphaneleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: BSC token taramasi
+        run: python bsc_early_hunter.py
