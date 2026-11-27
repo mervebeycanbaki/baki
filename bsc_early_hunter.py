@@ -49,6 +49,29 @@ def send_telegram(message):
         return False
 
 
+SIGNAL_HISTORY_FILE = Path("bsc_signal_history.json")
+SCORE_ALERT_INCREASE = 10
+
+
+def load_signal_history():
+    if not SIGNAL_HISTORY_FILE.exists():
+        return {}
+
+    try:
+        return json.loads(
+            SIGNAL_HISTORY_FILE.read_text(encoding="utf-8")
+        )
+    except Exception as e:
+        print("SINYAL GECMISI OKUNAMADI:", e)
+        return {}
+
+
+def save_signal_history(history):
+    SIGNAL_HISTORY_FILE.write_text(
+        json.dumps(history, ensure_ascii=False, indent=2),
+        encoding="utf-8"
+    )
+
 
 def get_latest_tokens():
     tokens = []
