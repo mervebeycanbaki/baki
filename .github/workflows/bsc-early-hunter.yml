@@ -29,4 +29,7 @@ jobs:
           pip install requests
 
       - name: BSC token taramasi
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python bsc_early_hunter.py
