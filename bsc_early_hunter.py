@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from datetime import datetime, timezone
 
-BASE_URL = "https://api.dexscreener.com"
+GECKO_BASE_URL = "https://api.geckoterminal.com/api/v2"
 
 # Tarama filtreleri
 MIN_LIQUIDITY_USD = 5000
