@@ -12,7 +12,7 @@ MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
 
 
-ef get_latest_tokens():
+def get_latest_tokens():
     endpoints = [
         f"{BASE_URL}/token-boosts/latest/v1",
         f"{BASE_URL}/token-boosts/top/v1"
