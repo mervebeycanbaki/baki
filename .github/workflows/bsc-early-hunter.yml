@@ -33,10 +33,16 @@ jobs:
           BSC_TELEGRAM_BOT_TOKEN: ${{ secrets.BSC_TELEGRAM_BOT_TOKEN }}
           BSC_TELEGRAM_CHAT_ID: ${{ secrets.BSC_TELEGRAM_CHAT_ID }}
         run: python bsc_early_hunter.py
-              - name: Sinyal gecmisini GitHub'a kaydet
+
+      - name: Sinyal gecmisini GitHub'a kaydet
+        if: success()
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bsc_signal_history.json
-          git diff --cached --quiet || git commit -m "Update BSC signal history"
-          git push
+          if [ -f bsc_signal_history.json ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add bsc_signal_history.json
+            git diff --cached --quiet || git commit -m "Update BSC signal history"
+            git push
+          else
+            echo "Sinyal gecmisi dosyasi henuz olusmadi."
+          fi
