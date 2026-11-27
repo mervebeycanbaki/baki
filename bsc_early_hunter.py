@@ -447,6 +447,8 @@ def main():
             base = pair.get("baseToken") or {}
             quote = pair.get("quoteToken") or {}
 
+           
+            
             print("-" * 50)
             print("TOKEN:", base.get("name", "Unknown"))
             print("SYMBOL:", base.get("symbol", "?"))
@@ -460,7 +462,8 @@ def main():
             print("DEX:", pair.get("dexId", ""))
             print("PARITE:", quote.get("symbol", "?"))
             print("LINK:", pair.get("url", ""))
-             security = item.get("security") or {}
+
+            security = item.get("security") or {}
 
             print("GOPLUS DURUM:", security.get("status", "Kontrol yok"))
 
@@ -472,16 +475,6 @@ def main():
 
             print("HONEYPOT:",
                   risk_data.get("is_honeypot", "Bilinmiyor"))
-
-            print("ALIŞ VERGİSİ:",
-                  risk_data.get("buy_tax", "Bilinmiyor"))
-
-            print("SATIŞ VERGİSİ:",
-                  risk_data.get("sell_tax", "Bilinmiyor"))
-
-            print("HOLDER SAYISI:",
-                  risk_data.get("holder_count", "Bilinmiyor"))
-
             print()
 
     except Exception as e:
