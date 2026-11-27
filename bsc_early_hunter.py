@@ -601,6 +601,15 @@ def analyze_pairs(pairs):
             "volume5m": vol5m,
             "buys": buys,
             "sells": sells,
+            "unique_buyers": (
+            gecko_data.get(pair.get("pairAddress", "").lower(), {}).get("buyers")
+            ),
+            "unique_sellers": (
+            gecko_data.get(pair.get("pairAddress", "").lower(), {}).get("sellers")
+            ),
+            "wallet_data_available": (
+            pair.get("pairAddress", "").lower() in gecko_data
+            ),
             "security": security
         }
 
