@@ -332,10 +332,12 @@ def get_goplus_security(address):
 
 
 
-def analyze_pairs(pairs):
-    candidates = []
-    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
 
+def analyze_pairs(pairs):
+    # Her kontrat için yalnızca en iyi pariteyi sakla
+    best_candidates = {}
+
+    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
     security_cache = {}
 
     for pair in pairs:
@@ -352,7 +354,6 @@ def analyze_pairs(pairs):
 
         buys = tx5m.get("buys", 0) or 0
         sells = tx5m.get("sells", 0) or 0
-
         total_txns = buys + sells
 
         created = pair.get("pairCreatedAt")
@@ -378,37 +379,32 @@ def analyze_pairs(pairs):
         address = base.get("address", "")
 
         if not address:
-            print("GUVENLIK KONTROLU YAPILAMADI: Adres yok")
             continue
 
         key = address.lower()
 
-        # Aynı kontrat için tekrar API çağrısı yapma
+        # Aynı kontrat için güvenlik kontrolünü bir kez yap
         if key not in security_cache:
             security_cache[key] = get_goplus_security(address)
             time.sleep(2.1)
 
         security = security_cache[key]
 
-        # Güvenlik verisi doğrulanmadıysa sinyale alma
         if not security.get("verified", False):
             print("GUVENLIK DOGRULANAMADI:", address)
             continue
 
-        # Kritik risk varsa tamamen ele
         if security.get("critical", False):
             print("KRITIK RISK NEDENIYLE ELENDI:", address)
             continue
 
-        # Önce temel puanı hesapla
         score = calculate_score(pair)
 
-        # Risk uyarıları puanı düşürsün
         warning_count = len(security.get("flags") or [])
         score -= min(warning_count * 5, 25)
         score = max(0, score)
 
-        candidates.append({
+        candidate = {
             "pair": pair,
             "score": score,
             "age_hours": age_hours,
@@ -417,14 +413,34 @@ def analyze_pairs(pairs):
             "buys": buys,
             "sells": sells,
             "security": security
-        })
+        }
+
+        # Aynı kontratın en yüksek puanlı paritesini tut
+        previous = best_candidates.get(key)
+
+        if previous is None:
+            best_candidates[key] = candidate
+
+        elif (
+            score > previous["score"]
+            or (
+                score == previous["score"]
+                and liquidity > previous["liquidity"]
+            )
+        ):
+            best_candidates[key] = candidate
+
+    candidates = list(best_candidates.values())
 
     candidates.sort(
         key=lambda x: x["score"],
         reverse=True
     )
 
+    print("Benzersiz kontrat sayisi:", len(candidates))
+
     return candidates
+
 
 def main():
     print("=" * 50)
