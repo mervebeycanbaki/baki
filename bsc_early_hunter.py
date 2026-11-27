@@ -12,19 +12,42 @@ MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
 
 
-def get_latest_tokens():
-    url = f"{BASE_URL}/token-boosts/latest/v1"
-
-    response = requests.get(url, timeout=20)
-    response.raise_for_status()
-
-    data = response.json()
+ef get_latest_tokens():
+    endpoints = [
+        f"{BASE_URL}/token-boosts/latest/v1",
+        f"{BASE_URL}/token-boosts/top/v1"
+    ]
 
     tokens = []
     seen = set()
 
-    if not isinstance(data, list):
-        return tokens
+    for url in endpoints:
+        try:
+            response = requests.get(url, timeout=20)
+            response.raise_for_status()
+
+            data = response.json()
+
+            if not isinstance(data, list):
+                continue
+
+            for item in data:
+                if item.get("chainId") != "bsc":
+                    continue
+
+                address = item.get("tokenAddress")
+
+                if address and address.lower() not in seen:
+                    seen.add(address.lower())
+                    tokens.append(address)
+
+            print("Kaynak:", url)
+            print("Bulunan BSC adresi:", len(tokens))
+
+        except Exception as e:
+            print("Kaynak hatası:", url, e)
+
+    return tokens
 
     for item in data:
         if item.get("chainId") != "bsc":
