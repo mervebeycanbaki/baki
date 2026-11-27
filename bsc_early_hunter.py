@@ -563,6 +563,8 @@ def analyze_pairs(pairs):
 
 
 def main():
+    history = load_signal_history()
+
     print("=" * 50)
     print("BSC ERKEN COIN AVCISI")
     print("Tarama:", datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
