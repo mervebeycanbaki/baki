@@ -214,8 +214,18 @@ def calculate_score(pair):
 
 
 
+
 def get_goplus_security(address):
     url = "https://api.gopluslabs.io/api/v1/token_security/56"
+
+    def failed(status, message):
+        return {
+            "status": status,
+            "flags": [message],
+            "data": None,
+            "critical": False,
+            "verified": False
+        }
 
     try:
         response = requests.get(
@@ -228,13 +238,11 @@ def get_goplus_security(address):
         response.raise_for_status()
         payload = response.json()
 
-        if payload.get("code") != 1:
-            return {
-                "status": "API YANITI HATALI",
-                "flags": ["Güvenlik verisi doğrulanamadı"],
-                "data": None,
-                "critical": False
-            }
+        if str(payload.get("code")) != "1":
+            return failed(
+                "API YANITI HATALI",
+                "GoPlus güvenlik verisi doğrulanamadı"
+            )
 
         result = payload.get("result") or {}
         info = None
@@ -245,12 +253,10 @@ def get_goplus_security(address):
                 break
 
         if not isinstance(info, dict):
-            return {
-                "status": "VERİ BULUNAMADI",
-                "flags": ["Token için GoPlus kaydı bulunamadı"],
-                "data": None,
-                "critical": False
-            }
+            return failed(
+                "VERİ BULUNAMADI",
+                "Token için GoPlus kaydı bulunamadı"
+            )
 
         warnings = []
         critical = []
@@ -261,19 +267,19 @@ def get_goplus_security(address):
         if str(info.get("cannot_buy", "")) == "1":
             critical.append("Token satın alınamıyor")
 
-        if str(info.get("sell_tax", "")) == "1":
-            critical.append("Satış vergisi %100 veya satış engelli")
-
+        # Vergi oranlarını kontrol et
         try:
             sell_tax = float(info.get("sell_tax", ""))
-            if 0.20 <= sell_tax < 1:
+            if sell_tax >= 0.50:
+                critical.append(
+                    f"Kritik satış vergisi: %{sell_tax * 100:.1f}"
+                )
+            elif sell_tax >= 0.20:
                 warnings.append(
                     f"Yüksek satış vergisi: %{sell_tax * 100:.1f}"
                 )
-            elif sell_tax >= 0.50:
-                critical.append("Çok yüksek satış vergisi")
         except (ValueError, TypeError):
-            pass
+            warnings.append("Satış vergisi doğrulanamadı")
 
         try:
             buy_tax = float(info.get("buy_tax", ""))
@@ -282,7 +288,7 @@ def get_goplus_security(address):
                     f"Yüksek alış vergisi: %{buy_tax * 100:.1f}"
                 )
         except (ValueError, TypeError):
-            pass
+            warnings.append("Alış vergisi doğrulanamadı")
 
         risk_fields = {
             "cannot_sell_all": "Tek seferde tüm token satılamayabilir",
@@ -313,29 +319,24 @@ def get_goplus_security(address):
             "status": status,
             "flags": critical + warnings,
             "data": info,
-            "critical": bool(critical)
+            "critical": bool(critical),
+            "verified": True
         }
 
     except requests.exceptions.HTTPError as e:
-        return {
-            "status": "GOPLUS HTTP HATASI",
-            "flags": [str(e)],
-            "data": None,
-            "critical": False
-        }
+        return failed("GOPLUS HTTP HATASI", str(e))
 
     except Exception as e:
-        return {
-            "status": "GOPLUS KONTROL EDİLEMEDİ",
-            "flags": [str(e)],
-            "data": None,
-            "critical": False
-        }
+        return failed("GOPLUS KONTROL EDİLEMEDİ", str(e))
+
+
 
 
 def analyze_pairs(pairs):
     candidates = []
     now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+
+    security_cache = {}
 
     for pair in pairs:
 
@@ -361,10 +362,7 @@ def analyze_pairs(pairs):
 
         age_hours = (now_ms - created) / 3600000
 
-        if age_hours < 0:
-            continue
-
-        if age_hours > MAX_TOKEN_AGE_DAYS * 24:
+        if age_hours < 0 or age_hours > MAX_TOKEN_AGE_DAYS * 24:
             continue
 
         if liquidity < MIN_LIQUIDITY_USD:
@@ -376,7 +374,39 @@ def analyze_pairs(pairs):
         if total_txns < MIN_TXNS_5M:
             continue
 
+        base = pair.get("baseToken") or {}
+        address = base.get("address", "")
+
+        if not address:
+            print("GUVENLIK KONTROLU YAPILAMADI: Adres yok")
+            continue
+
+        key = address.lower()
+
+        # Aynı kontrat için tekrar API çağrısı yapma
+        if key not in security_cache:
+            security_cache[key] = get_goplus_security(address)
+            time.sleep(2.1)
+
+        security = security_cache[key]
+
+        # Güvenlik verisi doğrulanmadıysa sinyale alma
+        if not security.get("verified", False):
+            print("GUVENLIK DOGRULANAMADI:", address)
+            continue
+
+        # Kritik risk varsa tamamen ele
+        if security.get("critical", False):
+            print("KRITIK RISK NEDENIYLE ELENDI:", address)
+            continue
+
+        # Önce temel puanı hesapla
         score = calculate_score(pair)
+
+        # Risk uyarıları puanı düşürsün
+        warning_count = len(security.get("flags") or [])
+        score -= min(warning_count * 5, 25)
+        score = max(0, score)
 
         candidates.append({
             "pair": pair,
@@ -385,35 +415,14 @@ def analyze_pairs(pairs):
             "liquidity": liquidity,
             "volume5m": vol5m,
             "buys": buys,
-            "sells": sells
+            "sells": sells,
+            "security": security
         })
 
-    candidates.sort(key=lambda x: x["score"], reverse=True)
-
-    # Yalnızca filtreyi geçen adayların kontratını kontrol et.
-    security_cache = {}
-
-    for item in candidates:
-        pair = item["pair"]
-        base = pair.get("baseToken") or {}
-        address = base.get("address", "")
-
-        if not address:
-            item["security"] = {
-                "status": "KONTRAT ADRESİ YOK",
-                "flags": ["Güvenlik kontrolü yapılamadı"],
-                "data": None,
-                "critical": False
-            }
-            continue
-
-        key = address.lower()
-
-        if key not in security_cache:
-            security_cache[key] = get_goplus_security(address)
-            time.sleep(2.1)
-
-        item["security"] = security_cache[key]
+    candidates.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
 
     return candidates
 
