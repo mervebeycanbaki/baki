@@ -13,6 +13,41 @@ MIN_LIQUIDITY_USD = 5000
 MIN_VOLUME_5M_USD = 1000
 MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
+def send_telegram(message):
+    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+
+    if not bot_token or not chat_id:
+        print("TELEGRAM HATASI: Token veya Chat ID bulunamadi.")
+        return False
+
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+
+    try:
+        response = requests.post(
+            url,
+            json={
+                "chat_id": chat_id,
+                "text": message,
+                "disable_web_page_preview": True
+            },
+            timeout=20
+        )
+
+        response.raise_for_status()
+        result = response.json()
+
+        if result.get("ok"):
+            print("TELEGRAM: Mesaj basariyla gonderildi.")
+            return True
+
+        print("TELEGRAM HATASI:", result)
+        return False
+
+    except Exception as e:
+        print("TELEGRAM GONDERIM HATASI:", str(e))
+        return False
+
 
 
 def get_latest_tokens():
