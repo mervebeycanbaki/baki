@@ -634,6 +634,5 @@ def main():
     print("TEST TARAMASI TAMAMLANDI")
 
 
-if __name__ == "__main__":
-    send_telegram("TEST: BSC Erken Coin Avcisi Telegram baglantisi basarili!")
+    if __name__ == "__main__":
     main()
