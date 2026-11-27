@@ -1,0 +1,26 @@
+{
+  "0x09f15842edfdd89f2b98dbf0c7d9fc4cb1758b71": {
+    "alert_score": 95,
+    "alert_at": "2026-11-27T09:07:58.760849+00:00",
+    "name": "King Spot",
+    "symbol": "KING"
+  },
+  "0x87bfc3663f4a95fd1e43489ac084fff33305cb47": {
+    "alert_score": 95,
+    "alert_at": "2026-11-27T09:08:00.078496+00:00",
+    "name": "登月金融🦊",
+    "symbol": "登月金融🦊"
+  },
+  "0x1197d3323a09007be4a01f193b5bdb569f027777": {
+    "alert_score": 85,
+    "alert_at": "2026-11-27T09:08:01.408502+00:00",
+    "name": "Binance Super CZ",
+    "symbol": "BSC"
+  },
+  "0x8887d64aec4883af08023f205f93e4b8e2e54c3d": {
+    "alert_score": 75,
+    "alert_at": "2026-11-27T09:08:02.741324+00:00",
+    "name": "U.S. Dollar Index (Derivatives)",
+    "symbol": "DXY"
+  }
+}
