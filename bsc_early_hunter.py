@@ -72,6 +72,65 @@ def save_signal_history(history):
         encoding="utf-8"
     )
 
+def process_signals(candidates, history):
+    for item in candidates[:20]:
+        pair = item["pair"]
+        base = pair.get("baseToken") or {}
+        quote = pair.get("quoteToken") or {}
+        security = item.get("security") or {}
+
+        address = base.get("address", "")
+        if not address:
+            continue
+
+        key = address.lower()
+        score = item["score"]
+
+        previous = history.get(key, {})
+        previous_score = previous.get("alert_score")
+
+        # İlk kez bulunan coin veya en az 10 puanlık artış
+        is_new = previous_score is None
+        score_increased = (
+            previous_score is not None
+            and score >= previous_score + SCORE_ALERT_INCREASE
+        )
+
+        if not is_new and not score_increased:
+            continue
+
+        warnings = security.get("flags") or []
+        warning_text = "\n".join(
+            f"⚠️ {warning}" for warning in warnings
+        ) if warnings else "Belirgin risk işareti bulunmadı"
+
+        message = (
+            f"🚨 BSC ERKEN COIN SINYALI\n\n"
+            f"🪙 Coin: {base.get('name', 'Unknown')}\n"
+            f"🔖 Sembol: {base.get('symbol', '?')}\n"
+            f"⭐ Skor: {score}/100\n"
+            f"💧 Likidite: ${item['liquidity']:,.2f}\n"
+            f"📊 5 DK Hacim: ${item['volume5m']:,.2f}\n"
+            f"🟢 Alım: {item['buys']}\n"
+            f"🔴 Satım: {item['sells']}\n"
+            f"⏱️ Yaş: {item['age_hours']:.2f} saat\n\n"
+            f"🔐 Güvenlik: {security.get('status', 'Bilinmiyor')}\n"
+            f"{warning_text}\n\n"
+            f"📄 Kontrat:\n{address}\n\n"
+            f"🔗 DexScreener: {pair.get('url', '')}\n\n"
+            f"⚠️ Bu bir erken uyarıdır, yatırım tavsiyesi değildir."
+        )
+
+        if send_telegram(message):
+            history[key] = {
+                "alert_score": score,
+                "alert_at": datetime.now(timezone.utc).isoformat(),
+                "name": base.get("name", "Unknown"),
+                "symbol": base.get("symbol", "?")
+            }
+
+
+
 
 def get_latest_tokens():
     tokens = []
