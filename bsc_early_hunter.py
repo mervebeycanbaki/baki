@@ -11,18 +11,20 @@ BASE_URL = "https://api.dexscreener.com"
 GECKO_URL = "https://api.geckoterminal.com/api/v2"
 GOPLUS_URL = "https://api.gopluslabs.io/api/v1/token_security/56"
 
-# ON FILTRELER
+# FILTRELER
 MIN_LIQUIDITY_USD = 5000
 MIN_VOLUME_5M_USD = 1000
 MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
 
-# API LIMITLERI
+# VERI TARAMA
 GECKO_NEW_POOL_PAGES = 3
 MAX_TRADE_CHECKS_PER_SCAN = 3
+
+# API
 REQUEST_TIMEOUT = 25
 GOPLUS_DELAY = 2.1
-GECKO_DELAY = 2.2
+GECKO_DELAY = 6.5
 
 # SINYAL
 MIN_SIGNAL_SCORE = 50
@@ -58,12 +60,12 @@ def send_telegram(message):
             json={
                 "chat_id": chat_id,
                 "text": message,
-                "disable_web_page_preview": True,
+                "disable_web_page_preview": True
             },
-            timeout=REQUEST_TIMEOUT,
+            timeout=REQUEST_TIMEOUT
         )
-        response.raise_for_status()
 
+        response.raise_for_status()
         result = response.json()
 
         if result.get("ok"):
@@ -97,7 +99,7 @@ def save_signal_history(history):
     try:
         SIGNAL_HISTORY_FILE.write_text(
             json.dumps(history, ensure_ascii=False, indent=2),
-            encoding="utf-8",
+            encoding="utf-8"
         )
         print("Sinyal gecmisi kaydedildi.")
 
@@ -131,7 +133,7 @@ def get_latest_tokens():
     endpoints = [
         f"{BASE_URL}/token-profiles/latest/v1",
         f"{BASE_URL}/token-boosts/latest/v1",
-        f"{BASE_URL}/token-boosts/top/v1",
+        f"{BASE_URL}/token-boosts/top/v1"
     ]
 
     for url in endpoints:
@@ -175,7 +177,6 @@ def get_latest_tokens():
                 },
                 timeout=REQUEST_TIMEOUT
             )
-
             response.raise_for_status()
 
             payload = response.json()
@@ -244,7 +245,6 @@ def get_token_pairs(addresses):
                 url,
                 timeout=REQUEST_TIMEOUT
             )
-
             response.raise_for_status()
 
             data = response.json()
@@ -272,7 +272,7 @@ def get_goplus_security(address):
             "critical": True,
             "status": "DOGRULANAMADI",
             "flags": [message],
-            "tax_values": {},
+            "tax_values": {}
         }
 
     try:
@@ -282,11 +282,10 @@ def get_goplus_security(address):
                 "contract_addresses": address.lower()
             },
             headers={"accept": "application/json"},
-            timeout=REQUEST_TIMEOUT,
+            timeout=REQUEST_TIMEOUT
         )
 
         response.raise_for_status()
-
         payload = response.json()
 
         if str(payload.get("code")) != "1":
@@ -332,8 +331,6 @@ def get_goplus_security(address):
             except (ValueError, TypeError):
                 critical.append(f"{label} VERGISI OKUNAMADI")
 
-        # HONEYPOT
-
         if str(info.get("is_honeypot", "")) == "1":
             critical.append("HONEYPOT TESPIT EDILDI")
 
@@ -343,8 +340,6 @@ def get_goplus_security(address):
         if str(info.get("cannot_sell_all", "")) == "1":
             critical.append("TOKENLARIN TAMAMI SATILAMAYABILIR")
 
-        # DIGER KONTRAT RISKLERI
-
         risk_fields = {
             "is_mintable": "YENI TOKEN BASMA YETKISI VAR",
             "owner_change_balance": "SAHIP BAKIYE DEGISTIREBILIR",
@@ -352,7 +347,7 @@ def get_goplus_security(address):
             "can_take_back_ownership": "SAHIPLIK GERI ALINABILIR",
             "slippage_modifiable": "VERGI ORANI DEGISTIRILEBILIR",
             "transfer_pausable": "TRANSFERLER DURDURULABILIR",
-            "is_blacklisted": "KARA LISTE OZELLIGI VAR",
+            "is_blacklisted": "KARA LISTE OZELLIGI VAR"
         }
 
         for field, message in risk_fields.items():
@@ -378,7 +373,7 @@ def get_goplus_security(address):
             "critical": bool(critical),
             "status": status,
             "flags": flags,
-            "tax_values": tax_values,
+            "tax_values": tax_values
         }
 
     except Exception as exc:
@@ -417,8 +412,7 @@ def get_pool_trade_metrics(pair, liquidity):
 
         response.raise_for_status()
 
-        payload = response.json()
-        trades = payload.get("data", [])
+        trades = response.json().get("data", [])
 
         now = datetime.now(timezone.utc)
         cutoff = now - timedelta(minutes=5)
@@ -428,12 +422,9 @@ def get_pool_trade_metrics(pair, liquidity):
 
         large_buy_volume = 0.0
         large_buy_count = 0
-        large_buy_wallets = set()
+        large_buy_addresses = set()
 
         recent_count = 0
-
-        # BUYUK ALIM ESIGI
-        # 250 DOLAR VEYA LIKIDITENIN %1'I
 
         large_threshold = max(
             250.0,
@@ -484,10 +475,14 @@ def get_pool_trade_metrics(pair, liquidity):
                     large_buy_count += 1
                     large_buy_volume += volume_usd
 
-                    wallet = attributes.get("tx_from_address")
+                    source_address = attributes.get(
+                        "tx_from_address"
+                    )
 
-                    if isinstance(wallet, str) and wallet:
-                        large_buy_wallets.add(wallet.lower())
+                    if isinstance(source_address, str) and source_address:
+                        large_buy_addresses.add(
+                            source_address.lower()
+                        )
 
             else:
                 sell_volume += volume_usd
@@ -508,8 +503,8 @@ def get_pool_trade_metrics(pair, liquidity):
             "buy_share": buy_share,
             "large_threshold": large_threshold,
             "large_buy_count": large_buy_count,
-            "large_buy_wallets": len(large_buy_wallets),
-            "large_buy_volume": large_buy_volume,
+            "large_buy_wallets": len(large_buy_addresses),
+            "large_buy_volume": large_buy_volume
         }
 
     except Exception as exc:
@@ -564,7 +559,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
         else 0.0
     )
 
-    # 1. LIKIDITE - 15 PUAN
+    # 1. LIKIDITE - 15
 
     if liquidity >= 100000:
         points = 15
@@ -582,7 +577,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["liquidity"] = points
     score += points
 
-    # 2. 5 DAKIKALIK HACIM - 10 PUAN
+    # 2. 5 DK HACIM - 10
 
     if vol5m >= 30000:
         points = 10
@@ -600,7 +595,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["volume"] = points
     score += points
 
-    # 3. ISLEM YOGUNLUGU - 10 PUAN
+    # 3. ISLEM YOGUNLUGU - 10
 
     if total_txns >= 100:
         points = 10
@@ -616,8 +611,8 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["transactions"] = points
     score += points
 
-    # 4. ALICI USTUNLUGU - 15 PUAN
-    # AZ ISLEM VARSA PUANIN GUVENI DUSURULUR
+    # 4. ALICI USTUNLUGU - 15
+    # AZ ISLEMDE PUAN GUVENI DUSURULUR
 
     if buy_ratio >= 0.75:
         raw_buyer_points = 15
@@ -634,7 +629,10 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     else:
         raw_buyer_points = 0
 
-    buyer_confidence = min(total_txns / 30.0, 1.0)
+    buyer_confidence = min(
+        total_txns / 30.0,
+        1.0
+    )
 
     buyer_points = round(
         raw_buyer_points * buyer_confidence
@@ -643,7 +641,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["buyer_balance"] = buyer_points
     score += buyer_points
 
-    # 5. HACIM / LIKIDITE DENGESI - 10 PUAN
+    # 5. HACIM / LIKIDITE - 10
 
     if 0.02 <= turnover <= 0.25:
         points = 10
@@ -665,8 +663,8 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["turnover"] = points
     score += points
 
-    # 6. HACIM IVMESI - 10 PUAN
-    # YETERLI GECMIS YOKSA PUAN VERILMEZ
+    # 6. HACIM IVMESI - 10
+    # YETERLI GECMIS YOKSA PUAN YOK
 
     age_minutes = age_hours * 60
 
@@ -709,8 +707,8 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["acceleration"] = acceleration_points
     score += acceleration_points
 
-    # 7. GERCEK BUYUK ALIMLAR - 15 PUAN
-    # SADECE ESIGI GECEN ISLEMLER VE FARKLI CUZDANLAR
+    # 7. GERCEK BUYUK ALIMLAR - 15
+    # YALNIZCA BUYUK ISLEM VE FARKLI ADRESLER
 
     trade_metrics = trade_metrics or {}
 
@@ -739,7 +737,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["large_buys"] = large_buy_points
     score += large_buy_points
 
-    # 8. TOKEN YASI - 5 PUAN
+    # 8. TOKEN YASI - 5
 
     if age_minutes < 15:
         age_points = 2
@@ -757,7 +755,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["age"] = age_points
     score += age_points
 
-    # 9. FIYAT HAREKETI - 5 PUAN
+    # 9. FIYAT HAREKETI - 5
 
     change5m = number(
         price_change.get("m5")
@@ -779,8 +777,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["price"] = price_points
     score += price_points
 
-    # 10. ISLEM HACMINDE ALICI PAYI - 5 PUAN
-    # ISLEM ADEDINDEN AYRI BIR HACIM OLCUSUDUR
+    # 10. ISLEM HACMINDE ALICI PAYI - 5
 
     trade_buy_share = trade_metrics.get("buy_share")
 
@@ -788,8 +785,8 @@ def calculate_score(pair, age_hours, trade_metrics=None):
         trade_metrics.get("recent_count", 0) or 0
     )
 
-    raw_trade_points = 0
     trade_points = 0
+    raw_trade_points = 0
 
     trade_confidence = min(
         trade_count / 30.0,
@@ -830,10 +827,7 @@ def calculate_score(pair, age_hours, trade_metrics=None):
     parts["turnover_penalty"] = -turnover_penalty
     score -= turnover_penalty
 
-    score = max(
-        0,
-        min(score, 100)
-    )
+    score = max(0, min(score, 100))
 
     return {
         "score": score,
@@ -844,12 +838,12 @@ def calculate_score(pair, age_hours, trade_metrics=None):
         "acceleration": acceleration,
         "trade_metrics": trade_metrics,
         "trade_buy_share": trade_buy_share,
-        "trade_confidence": trade_confidence,
+        "trade_confidence": trade_confidence
     }
 
 
 # ==================================================
-# ADAYLARI ANALIZ ET
+# ADAY ANALIZI VE PUAN DETAYI
 # ==================================================
 
 def analyze_pairs(pairs):
@@ -874,7 +868,7 @@ def analyze_pairs(pairs):
         "goplus_unverified": 0,
         "security_rejected": 0,
         "security_passed": 0,
-        "score_rejected": 0,
+        "score_rejected": 0
     }
 
     print("\n========== ON FILTRE KONTROLU ==========")
@@ -907,14 +901,11 @@ def analyze_pairs(pairs):
             age_hours < 0
             or age_hours > MAX_TOKEN_AGE_DAYS * 24
         ):
-
             stats["too_old_or_invalid_age"] += 1
-
             print(
                 f"ELENDI: Yas ({age_hours:.2f} saat):",
                 address
             )
-
             continue
 
         liquidity = number(
@@ -922,29 +913,22 @@ def analyze_pairs(pairs):
         )
 
         if liquidity < MIN_LIQUIDITY_USD:
-
             stats["low_liquidity"] += 1
-
             print(
                 f"ELENDI: Dusuk likidite (${liquidity:.2f}):",
                 address
             )
-
             continue
 
         volume = pair.get("volume") or {}
-
         vol5m = number(volume.get("m5"))
 
         if vol5m < MIN_VOLUME_5M_USD:
-
             stats["low_volume"] += 1
-
             print(
                 f"ELENDI: Dusuk hacim (${vol5m:.2f}):",
                 address
             )
-
             continue
 
         tx5m = (
@@ -955,26 +939,15 @@ def analyze_pairs(pairs):
         sells = int(number(tx5m.get("sells")))
 
         if buys + sells < MIN_TXNS_5M:
-
             stats["low_transactions"] += 1
-
-            print(
-                "ELENDI: Dusuk islem sayisi:",
-                address
-            )
-
+            print("ELENDI: Dusuk islem sayisi:", address)
             continue
-
-        # AYNI KONTRAT ICIN TEK GOPLUS CAGIRISI
 
         key = address.lower()
 
         if key not in security_cache:
 
-            print(
-                "\nGOPLUS KONTROL EDILIYOR:",
-                address
-            )
+            print("\nGOPLUS KONTROL EDILIYOR:", address)
 
             security_cache[key] = get_goplus_security(address)
 
@@ -994,7 +967,6 @@ def analyze_pairs(pairs):
                 "|",
                 security.get("flags")
             )
-
             continue
 
         if security.get("critical"):
@@ -1007,7 +979,6 @@ def analyze_pairs(pairs):
                 "|",
                 " ; ".join(security.get("flags", []))
             )
-
             continue
 
         taxes = security.get("tax_values") or {}
@@ -1016,9 +987,8 @@ def analyze_pairs(pairs):
             taxes.get("buy_tax") != 0
             or taxes.get("sell_tax") != 0
         ):
-
             stats["security_rejected"] += 1
-            print("GUVENLIK NEDENIYLE ELENDI: Vergi sifir degil:", address)
+            print("ELENDI: Vergi sifir degil:", address)
             continue
 
         stats["security_passed"] += 1
@@ -1035,7 +1005,7 @@ def analyze_pairs(pairs):
             "trade_metrics": {
                 "available": False,
                 "error": "Henuz kontrol edilmedi"
-            },
+            }
         }
 
         previous = best_candidates.get(key)
@@ -1048,7 +1018,6 @@ def analyze_pairs(pairs):
                 and vol5m > previous["volume5m"]
             )
         ):
-
             best_candidates[key] = candidate
 
     candidates = list(best_candidates.values())
@@ -1056,7 +1025,6 @@ def analyze_pairs(pairs):
     # ILK PUANLAMA
 
     for item in candidates:
-
         result = calculate_score(
             item["pair"],
             item["age_hours"]
@@ -1070,7 +1038,7 @@ def analyze_pairs(pairs):
         reverse=True
     )
 
-    # API KULLANIMINI SINIRLAMAK ICIN EN IYI 3 ADAY
+    # EN IYI 3 ADAY ICIN ISLEM DETAYI
 
     print("\n========== BUYUK ALIM KONTROLU ==========")
 
@@ -1119,7 +1087,7 @@ def analyze_pairs(pairs):
             )
 
             print(
-                "BUYUK ALICI CUZDAN:",
+                "BUYUK ALICI ADRESI:",
                 metrics.get("large_buy_wallets", 0)
             )
 
@@ -1129,7 +1097,6 @@ def analyze_pairs(pairs):
             )
 
         else:
-
             print(
                 "ISLEM VERISI ALINAMADI:",
                 metrics.get("error")
@@ -1137,7 +1104,11 @@ def analyze_pairs(pairs):
 
         time.sleep(GECKO_DELAY)
 
-    # SON PUANLAMA
+    # SON PUANLAMA - ESIGIN ALTINDAKILER DE RAPORLANIR
+
+    accepted = []
+
+    print("\n========== TUM ADAYLARIN PUAN DETAYI ==========")
 
     for item in candidates:
 
@@ -1150,28 +1121,49 @@ def analyze_pairs(pairs):
         item["score"] = result["score"]
         item["score_details"] = result
 
-        if item["score"] < MIN_SIGNAL_SCORE:
+        pair = item["pair"]
+        base = pair.get("baseToken") or {}
 
+        passed = item["score"] >= MIN_SIGNAL_SCORE
+
+        print("\n----------------------------------------")
+        print("TOKEN:", base.get("name", "Unknown"))
+        print("SYMBOL:", base.get("symbol", "?"))
+        print("SKOR:", item["score"], "/100")
+
+        print(
+            "ALIM ORANI:",
+            round(result["buy_ratio"] * 100, 2),
+            "%"
+        )
+
+        print(
+            "ALIM ORANI VERI GUVENI:",
+            round(result["buyer_confidence"] * 100),
+            "%"
+        )
+
+        print(
+            "ISLEM HACMINDE ALICI PAYI:",
+            result["trade_buy_share"]
+        )
+
+        print(
+            "PUAN DAGILIMI:",
+            result["parts"]
+        )
+
+        print(
+            "SONUC:",
+            "ESIGI GECTI" if passed else "50 PUAN ALTINDA - ELENDI"
+        )
+
+        if passed:
+            accepted.append(item)
+        else:
             stats["score_rejected"] += 1
 
-            symbol = (
-                item["pair"].get("baseToken") or {}
-            ).get("symbol", "?")
-
-            print(
-                "SKOR NEDENIYLE ELENDI:",
-                symbol,
-                "| Skor:",
-                item["score"]
-            )
-
-    candidates = [
-        item
-        for item in candidates
-        if item["score"] >= MIN_SIGNAL_SCORE
-    ]
-
-    candidates.sort(
+    accepted.sort(
         key=lambda item: item["score"],
         reverse=True
     )
@@ -1181,14 +1173,15 @@ def analyze_pairs(pairs):
     for name, value in stats.items():
         print(f"{name}: {value}")
 
-    print("Benzersiz kontrat:", len(candidates))
+    print("Guvenlikten gecen benzersiz aday:", len(candidates))
+    print("50 puan ve uzeri aday:", len(accepted))
     print("============================================")
 
-    return candidates
+    return accepted
 
 
 # ==================================================
-# TELEGRAM SINYAL GONDERIMI
+# TELEGRAM
 # ==================================================
 
 def process_signals(candidates, history):
@@ -1217,7 +1210,6 @@ def process_signals(candidates, history):
             or taxes.get("buy_tax") != 0
             or taxes.get("sell_tax") != 0
         ):
-
             print("SINYAL ENGELLENDI: Guvenlik/vergi kontrolu gecmedi.")
             continue
 
@@ -1236,21 +1228,19 @@ def process_signals(candidates, history):
 
         previous_score = previous.get("alert_score")
 
-        # ESKI PUANLAMA GECMISINI YENI SURUME AKTAR
-        # ESKI SINYALI TEKRAR GONDERME
+        # ESKI PUANLAMA GECMISINI TASIMA
 
         if (
             previous_score is not None
             and previous_version != SCORE_VERSION
         ):
-
             history[key] = {
                 **previous,
                 "alert_score": score,
                 "score_version": SCORE_VERSION,
                 "score_baseline_at": datetime.now(
                     timezone.utc
-                ).isoformat(),
+                ).isoformat()
             }
 
             print(
@@ -1284,30 +1274,28 @@ def process_signals(candidates, history):
         trade = item["trade_metrics"]
 
         buy_percent = details["buy_ratio"] * 100
-
-        trade_buy_share = details.get("trade_buy_share")
-
         turnover_percent = details["turnover"] * 100
 
         buyer_confidence_percent = (
             details["buyer_confidence"] * 100
         )
 
+        trade_buy_share = details.get("trade_buy_share")
+
         acceleration = details.get("acceleration")
 
-        if acceleration is not None:
-            acceleration_text = f"{acceleration:.2f} kat"
-        else:
+        if acceleration is None:
             acceleration_text = "Yeterli onceki 5 dk veri yok"
+        else:
+            acceleration_text = f"{acceleration:.2f} kat"
 
         if trade.get("available"):
 
-            if trade_buy_share is None:
-                trade_buy_text = "Hesaplanamadi"
-            else:
-                trade_buy_text = (
-                    f"%{trade_buy_share * 100:.1f}"
-                )
+            trade_buy_text = (
+                f"%{trade_buy_share * 100:.1f}"
+                if trade_buy_share is not None
+                else "Hesaplanamadi"
+            )
 
             trade_text = (
                 f"Son 5 dk islem sayisi: "
@@ -1328,7 +1316,7 @@ def process_signals(candidates, history):
                 f"Buyuk alim sayisi: "
                 f"{trade.get('large_buy_count', 0)}\n"
 
-                f"Buyuk alici cuzdan: "
+                f"Buyuk alici adresi: "
                 f"{trade.get('large_buy_wallets', 0)}\n"
 
                 f"Buyuk alim toplami: "
@@ -1336,7 +1324,6 @@ def process_signals(candidates, history):
             )
 
         else:
-
             trade_text = (
                 "Islem/buyuk alim verisi alinamadi: "
                 + str(trade.get("error", "Bilinmiyor"))
@@ -1404,7 +1391,7 @@ def process_signals(candidates, history):
                     timezone.utc
                 ).isoformat(),
                 "name": base.get("name", "Unknown"),
-                "symbol": base.get("symbol", "?"),
+                "symbol": base.get("symbol", "?")
             }
 
             alert_count += 1
@@ -1463,7 +1450,7 @@ def print_candidates(candidates):
         print("HACIM IVMESI:", details["acceleration"])
 
         print(
-            "ISLEM BAZLI ALIM HACMI ORANI:",
+            "ISLEM HACMINDE ALICI PAYI:",
             details["trade_buy_share"]
         )
 
@@ -1478,7 +1465,7 @@ def print_candidates(candidates):
         )
 
         print(
-            "BUYUK ALICI CUZDAN:",
+            "BUYUK ALICI ADRESI:",
             trade.get("large_buy_wallets", 0)
         )
 
@@ -1495,8 +1482,7 @@ def print_candidates(candidates):
 def main():
 
     print("=" * 55)
-
-    print("BSC ERKEN COIN AVCISI - PUANLAMA V3")
+    print("BSC ERKEN COIN AVCISI - V3.1 DIAGNOSTIC")
 
     print(
         "Tarama:",
