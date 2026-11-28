@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: bsc-early-coin-hunter
+  cancel-in-progress: false
+
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -40,9 +44,20 @@ jobs:
           if [ -f bsc_signal_history.json ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
             git add bsc_signal_history.json
-            git diff --cached --quiet || git commit -m "Update BSC signal history"
-            git push
+
+            if ! git diff --cached --quiet; then
+              git commit -m "Update BSC signal history"
+
+              git pull --rebase origin "$GITHUB_REF_NAME"
+
+              git push
+
+              echo "Sinyal gecmisi GitHub'a kaydedildi."
+            else
+              echo "Sinyal gecisminde degisiklik yok."
+            fi
           else
-            echo "Sinyal gecmisi dosyasi henuz olusmadi."
+            echo "Sinyal gecmisi dosyasi olusmadi."
           fi
