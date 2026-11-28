@@ -22,5 +22,17 @@
     "alert_at": "2026-11-27T09:08:02.741324+00:00",
     "name": "U.S. Dollar Index (Derivatives)",
     "symbol": "DXY"
+  },
+  "0x8455386e5f34ab95f2c5fb5fcf633182893d7777": {
+    "alert_score": 85,
+    "alert_at": "2026-11-28T09:35:42.861507+00:00",
+    "name": "Rebirth",
+    "symbol": "生まれ"
+  },
+  "0x292f405e43b4479441ed635bc2438126c96a703a": {
+    "alert_score": 60,
+    "alert_at": "2026-11-28T09:35:44.370070+00:00",
+    "name": "Antic Claster",
+    "symbol": "ANTICC"
   }
 }
