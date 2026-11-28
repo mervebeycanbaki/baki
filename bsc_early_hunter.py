@@ -9,22 +9,24 @@ from datetime import datetime, timezone
 BASE_URL = "https://api.dexscreener.com"
 GOPLUS_URL = "https://api.gopluslabs.io/api/v1/token_security/56"
 
-# ILK FILTRELER
+# FILTRELER
 MIN_LIQUIDITY_USD = 5000
 MIN_VOLUME_5M_USD = 1000
 MIN_TXNS_5M = 10
 MAX_TOKEN_AGE_DAYS = 7
 
-# SINYAL AYARLARI
+# GECKOTERMINAL SAYFALARI
+GECKO_NEW_POOL_PAGES = 3
+
+# SINYAL
 MIN_SIGNAL_SCORE = 50
 SCORE_ALERT_INCREASE = 10
 MAX_ALERTS_PER_SCAN = 20
 
-# API AYARLARI
+# API
 REQUEST_TIMEOUT = 25
 GOPLUS_DELAY = 2.1
 
-# DOSYALAR
 SIGNAL_HISTORY_FILE = Path("bsc_signal_history.json")
 
 
@@ -81,7 +83,6 @@ def load_signal_history():
         data = json.loads(
             SIGNAL_HISTORY_FILE.read_text(encoding="utf-8")
         )
-
         return data if isinstance(data, dict) else {}
 
     except Exception as e:
@@ -95,7 +96,6 @@ def save_signal_history(history):
             json.dumps(history, ensure_ascii=False, indent=2),
             encoding="utf-8"
         )
-
         print("Sinyal gecmisi kaydedildi.")
 
     except Exception as e:
@@ -120,6 +120,8 @@ def get_latest_tokens():
         if key not in seen:
             seen.add(key)
             tokens.append(address)
+
+    # DEXSCREENER KAYNAKLARI
 
     endpoints = [
         f"{BASE_URL}/token-profiles/latest/v1",
@@ -149,60 +151,86 @@ def get_latest_tokens():
 
         time.sleep(0.5)
 
+    # GECKOTERMINAL: ILK 3 SAYFA
+
     gecko_url = (
         "https://api.geckoterminal.com/api/v2/"
         "networks/bsc/new_pools"
     )
 
-    try:
-        response = requests.get(
-            gecko_url,
-            headers={
-                "Accept": "application/json;version=20230203"
-            },
-            params={
-                "include": "base_token,quote_token",
-                "page": 1
-            },
-            timeout=REQUEST_TIMEOUT
-        )
+    headers = {
+        "Accept": "application/json;version=20230203"
+    }
 
-        response.raise_for_status()
-        data = response.json()
+    for page in range(1, GECKO_NEW_POOL_PAGES + 1):
 
-        for item in data.get("included", []):
-            if item.get("type") == "token":
-                attributes = item.get("attributes") or {}
-                address = attributes.get("address")
+        print(f"\nGeckoTerminal sayfa {page} taraniyor...")
 
-                if not address:
-                    resource_id = item.get("id", "")
+        try:
+            response = requests.get(
+                gecko_url,
+                headers=headers,
+                params={
+                    "include": "base_token,quote_token",
+                    "page": page
+                },
+                timeout=REQUEST_TIMEOUT
+            )
 
-                    if "_" in resource_id:
-                        address = resource_id.split("_", 1)[1]
+            response.raise_for_status()
+            data = response.json()
 
-                add_token(address)
+            pools = data.get("data", [])
 
-        for pool in data.get("data", []):
-            relationships = pool.get("relationships") or {}
+            # TOKEN KAYITLARI
 
-            for token_type in ("base_token", "quote_token"):
-                token_data = (
-                    relationships.get(token_type, {}).get("data")
-                )
+            for item in data.get("included", []):
 
-                if token_data:
-                    token_id = token_data.get("id", "")
+                if item.get("type") == "token":
+                    attributes = item.get("attributes") or {}
+                    address = attributes.get("address")
 
-                    if "_" in token_id:
-                        add_token(token_id.split("_", 1)[1])
+                    if not address:
+                        resource_id = item.get("id", "")
 
-        print("GeckoTerminal tamamlandi.")
+                        if "_" in resource_id:
+                            address = resource_id.split("_", 1)[1]
 
-    except Exception as e:
-        print("GeckoTerminal hatasi:", str(e))
+                    add_token(address)
 
-    print("Benzersiz BSC adresi:", len(tokens))
+            # PARITE ILISKILERINDEN TOKEN ADRESLERI
+
+            for pool in pools:
+
+                relationships = pool.get("relationships") or {}
+
+                for token_type in ("base_token", "quote_token"):
+
+                    token_data = (
+                        relationships.get(token_type, {}).get("data")
+                    )
+
+                    if token_data:
+                        token_id = token_data.get("id", "")
+
+                        if "_" in token_id:
+                            add_token(token_id.split("_", 1)[1])
+
+            print(
+                f"GeckoTerminal sayfa {page} tamamlandi.",
+                "| Havuz:",
+                len(pools)
+            )
+
+        except Exception as e:
+            print(
+                f"GeckoTerminal sayfa {page} hatasi:",
+                str(e)
+            )
+
+        time.sleep(1)
+
+    print("\nToplam benzersiz BSC adresi:", len(tokens))
 
     return tokens
 
@@ -211,6 +239,7 @@ def get_token_pairs(addresses):
     results = []
 
     for i in range(0, len(addresses), 30):
+
         batch = addresses[i:i + 30]
 
         url = f"{BASE_URL}/tokens/v1/bsc/{','.join(batch)}"
@@ -220,6 +249,7 @@ def get_token_pairs(addresses):
                 url,
                 timeout=REQUEST_TIMEOUT
             )
+
             response.raise_for_status()
 
             data = response.json()
@@ -236,6 +266,7 @@ def get_token_pairs(addresses):
 
 
 def get_goplus_security(address):
+
     def failed(message):
         return {
             "verified": False,
@@ -258,12 +289,11 @@ def get_goplus_security(address):
         )
 
         response.raise_for_status()
+
         payload = response.json()
 
         if str(payload.get("code")) != "1":
-            return failed(
-                "GoPlus API basarili cevap vermedi"
-            )
+            return failed("GoPlus API basarili cevap vermedi")
 
         result = payload.get("result") or {}
         info = None
@@ -274,22 +304,19 @@ def get_goplus_security(address):
                 break
 
         if not isinstance(info, dict):
-            return failed(
-                "GoPlus kontrat bilgisi bulunamadi"
-            )
+            return failed("GoPlus kontrat bilgisi bulunamadi")
 
         critical = []
         warnings = []
-
-        # ALIS VE SATIS VERGISI
-        # IKISI DE KESINLIKLE %0 OLMALI
-
         tax_values = {}
+
+        # ALIS VE SATIS VERGISI SIFIR TOLERANS
 
         for field, label in (
             ("buy_tax", "ALIS"),
             ("sell_tax", "SATIS")
         ):
+
             raw_tax = info.get(field)
 
             if raw_tax is None or raw_tax == "":
@@ -313,7 +340,7 @@ def get_goplus_security(address):
                     f"{label} VERGISI OKUNAMADI"
                 )
 
-        # HONEYPOT VE ALIM-SATIM ENGELI
+        # HONEYPOT VE SATIS ENGELI
 
         if str(info.get("is_honeypot", "")) == "1":
             critical.append("HONEYPOT TESPIT EDILDI")
@@ -322,7 +349,9 @@ def get_goplus_security(address):
             critical.append("TOKEN SATIN ALINAMIYOR")
 
         if str(info.get("cannot_sell_all", "")) == "1":
-            critical.append("TOKENLARIN TAMAMI SATILAMAYABILIR")
+            critical.append(
+                "TOKENLARIN TAMAMI SATILAMAYABILIR"
+            )
 
         # DIGER KONTRAT RISKLERI
 
@@ -337,18 +366,15 @@ def get_goplus_security(address):
         }
 
         for field, message in risk_fields.items():
+
             if str(info.get(field, "")) == "1":
                 warnings.append(message)
 
         if str(info.get("is_open_source", "")) == "0":
-            warnings.append(
-                "KONTRAT KAYNAK KODU ACIK DEGIL"
-            )
+            warnings.append("KONTRAT KAYNAK KODU ACIK DEGIL")
 
         if str(info.get("is_proxy", "")) == "1":
-            warnings.append(
-                "PROXY KONTRAT TESPIT EDILDI"
-            )
+            warnings.append("PROXY KONTRAT TESPIT EDILDI")
 
         flags = critical + warnings
 
@@ -376,6 +402,7 @@ def get_goplus_security(address):
 
 
 def calculate_score(pair):
+
     score = 0
 
     liquidity = number(
@@ -424,6 +451,7 @@ def calculate_score(pair):
         score += 5
 
     if vol5m > 0 and total_txns > 0:
+
         avg_trade = vol5m / total_txns
 
         if avg_trade < 1000:
@@ -433,6 +461,7 @@ def calculate_score(pair):
 
 
 def analyze_pairs(pairs):
+
     best_candidates = {}
     security_cache = {}
 
@@ -476,15 +505,17 @@ def analyze_pairs(pairs):
 
         if not created:
             stats["missing_creation_date"] += 1
-            print("ELENDI: Parite olusturma tarihi yok:", address)
+            print("ELENDI: Parite tarihi bulunamadi:", address)
             continue
 
         age_hours = (now_ms - created) / 3600000
 
         if age_hours < 0 or age_hours > MAX_TOKEN_AGE_DAYS * 24:
+
             stats["too_old_or_invalid_age"] += 1
+
             print(
-                f"ELENDI: Yas siniri ({age_hours:.2f} saat):",
+                f"ELENDI: Parite yasi ({age_hours:.2f} saat):",
                 address
             )
             continue
@@ -494,7 +525,9 @@ def analyze_pairs(pairs):
         )
 
         if liquidity < MIN_LIQUIDITY_USD:
+
             stats["low_liquidity"] += 1
+
             print(
                 f"ELENDI: Dusuk likidite (${liquidity:.2f}):",
                 address
@@ -505,7 +538,9 @@ def analyze_pairs(pairs):
         vol5m = number(volume.get("m5"))
 
         if vol5m < MIN_VOLUME_5M_USD:
+
             stats["low_volume"] += 1
+
             print(
                 f"ELENDI: Dusuk 5 dakika hacmi (${vol5m:.2f}):",
                 address
@@ -520,21 +555,25 @@ def analyze_pairs(pairs):
         total_txns = buys + sells
 
         if total_txns < MIN_TXNS_5M:
+
             stats["low_transactions"] += 1
+
             print(
                 f"ELENDI: Dusuk islem sayisi ({total_txns}):",
                 address
             )
             continue
 
-        # AYNI KONTRAT ICIN GOPLUS CAGRISINI TEKRARLAMA
+        # GOPLUS KONTROLU
 
         key = address.lower()
 
         if key not in security_cache:
+
             print("\nGOPLUS KONTROL EDILIYOR:", address)
 
             security_cache[key] = get_goplus_security(address)
+
             stats["goplus_checked"] += 1
 
             time.sleep(GOPLUS_DELAY)
@@ -542,6 +581,7 @@ def analyze_pairs(pairs):
         security = security_cache[key]
 
         if not security.get("verified", False):
+
             stats["goplus_unverified"] += 1
 
             print(
@@ -553,6 +593,7 @@ def analyze_pairs(pairs):
             continue
 
         if security.get("critical", False):
+
             stats["security_rejected"] += 1
 
             print(
@@ -577,10 +618,12 @@ def analyze_pairs(pairs):
         score = calculate_score(pair)
 
         warnings = security.get("flags") or []
+
         score -= min(len(warnings) * 5, 25)
         score = max(0, score)
 
         if score < MIN_SIGNAL_SCORE:
+
             stats["score_rejected"] += 1
 
             print(
@@ -633,6 +676,7 @@ def analyze_pairs(pairs):
 
 
 def process_signals(candidates, history):
+
     alert_count = 0
 
     for item in candidates:
@@ -687,6 +731,7 @@ def process_signals(candidates, history):
         )
 
         if not is_new and not score_increased:
+
             print(
                 "TEKRAR SINYAL ENGELLENDI:",
                 base.get("symbol", "?"),
@@ -713,7 +758,7 @@ def process_signals(candidates, history):
             f"📊 5 DK Hacim: ${item['volume5m']:,.2f}\n"
             f"🟢 Alim: {item['buys']}\n"
             f"🔴 Satim: {item['sells']}\n"
-            f"⏱️ Yas: {item['age_hours']:.2f} saat\n\n"
+            f"⏱️ Parite yasi: {item['age_hours']:.2f} saat\n\n"
             "🔐 GUVENLIK KONTROLU\n"
             "✅ Alis vergisi: %0\n"
             "✅ Satis vergisi: %0\n"
@@ -725,6 +770,7 @@ def process_signals(candidates, history):
         )
 
         if send_telegram(message):
+
             history[key] = {
                 "alert_score": score,
                 "alert_at": datetime.now(
@@ -742,17 +788,21 @@ def process_signals(candidates, history):
 
 
 def main():
+
     print("=" * 55)
     print("BSC ERKEN COIN AVCISI")
+
     print(
         "Tarama:",
         datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     )
+
     print("=" * 55)
 
     history = load_signal_history()
 
     try:
+
         tokens = get_latest_tokens()
 
         print("Bulunan token:", len(tokens))
@@ -785,6 +835,7 @@ def main():
         print("=================================")
 
     except Exception as e:
+
         print("TARAMA HATASI:", repr(e))
         raise
 
